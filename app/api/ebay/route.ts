@@ -30,12 +30,23 @@ export async function GET(request: Request) {
         'Content-Type': 'application/json'
       }
     });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message, stack: error.stack }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+  } catch (error: unknown) {
+    // Assert that error is an instance of Error
+    if (error instanceof Error) {
+      return new Response(JSON.stringify({ error: error.message, stack: error.stack }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    } else {
+      // Handle the case where the error is not an Error instance
+      return new Response(JSON.stringify({ error: 'An unknown error occurred' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    }
   }
 }
