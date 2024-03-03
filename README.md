@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+# most-watched
+
+Browse eBay's most-watched items.
+
+![most-watched website screenshot](/public/screenshot.png)
+
 ## Getting Started
 
 First, run the development server:
