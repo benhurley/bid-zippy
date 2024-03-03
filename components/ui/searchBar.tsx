@@ -24,7 +24,7 @@ export default function SearchBar({ handleSearch, isLoading }: TSearchBar) {
         <>
             <div className="inline-flex mb-3">
                 <p className="flex justify-start lg:text-lg text-sm">
-                Browse eBay's<span className="mx-1 font-bold">most-watched</span>items
+                Browse eBay&apos;s<span className="mx-1 font-bold">most-watched</span>items
                 </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
