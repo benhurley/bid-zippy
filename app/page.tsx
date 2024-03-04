@@ -15,7 +15,7 @@ export default function Home() {
   const [results, setResults] = useState<EbayMostWatchedItem[]>([])
   const { toast } = useToast();
 
-  const handleSearch = async (query = '') => {
+  const handleSearch = async (query: string) => {
     try {
       setNoResults(false);
       setResults([]);
@@ -28,12 +28,17 @@ export default function Home() {
       }
       setResults(data.itemRecommendations?.item || []);
       setIsLoading(false);
-    } catch (error) {
+    } catch (error: unknown) {
+      let errorMessage = 'An unknown error occurred';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast({
-        title: `Error: ${(error.message as string).toString()}`,
-        description: 'Check console for more info.',
+        title: `Error: ${errorMessage}`,
+        description: 'Check the browser console for more info.',
         variant: "destructive"
-      })
+      });
       setIsLoading(false);
     }
   };
@@ -43,11 +48,11 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between sm:p-24 px-10 pt-24 pb-10">
         <Header />
         <div className="mb-12">
-          <SearchBar handleSearch={handleSearch} isLoading={isLoading}/>
+          <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
         </div>
         {noResults &&
-            <p className="flex justify-center mx-auto">No results found.</p>
-          }
+          <p className="flex justify-center mx-auto">No results found.</p>
+        }
         {isLoading ?
           <PropagateLoader color="#000" />
           : results.length > 0 && <p className="text-sm text-center p-4">Showing results for category: <span className="font-bold">{results.length > 0 && results[0].primaryCategoryName}</span></p>}
