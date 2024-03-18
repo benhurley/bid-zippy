@@ -83,7 +83,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                 >
                   <CarouselContent>
                     <CarouselItem key='Primary Image'>
-                      <Card>
+                      <Card className="border-none">
                         <CardContent className="flex aspect-square items-center justify-center p-0">
                           <img
                             src={itemDetails?.image?.imageUrl}
@@ -95,7 +95,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                     </CarouselItem>
                     {itemDetails?.additionalImages?.map((image, index) => (
                       <CarouselItem key={index}>
-                        <Card>
+                        <Card className="border-none">
                           <CardContent className="flex aspect-square items-center justify-center p-0">
                             <img
                               src={image?.imageUrl}
@@ -110,14 +110,14 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                   <CarouselPrevious className="invisible sm:visible" />
                   <CarouselNext className="invisible sm:visible" />
                 </Carousel>
-                <DialogTitle tabIndex={0} className="font-bold text-lg mb-4">{itemDetails?.title}</DialogTitle>
+                <DialogTitle tabIndex={0} className="font-bold md:text-lg text-sm mb-4">{itemDetails?.title}</DialogTitle>
                 {itemDetails?.marketingPrice?.originalPrice?.value ?
-                  <p tabIndex={0} className="mb-1 font-bold text-md">Price:
+                  <p tabIndex={0} className="mb-1 font-bold md:text-md text-sm">Price:
                     <span className="ml-1 line-through">{formatter.format(parseInt(itemDetails.marketingPrice.originalPrice.value))}</span>
                     <span className="text-red-600 ml-2">{formatter.format(parseInt(itemDetails.price.value))}</span>
                   </p>
                   :
-                  <p className="mb-1 font-bold text-md">Price:&nbsp;{formatter.format(parseInt(itemDetails.price.value))}</p>
+                  <p className="mb-1 font-bold md:text-md text-sm">Price:&nbsp;{formatter.format(parseInt(itemDetails.price.value))}</p>
                 }
               </DialogHeader>
               <DialogDescription>
