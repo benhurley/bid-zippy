@@ -15,13 +15,15 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from "./card";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ButtonLink from "./buttonLink";
-
+import { EbayItemDetails } from "@/app/api/ebay/item/types";
 type EbayDetailsButtonProps = {
   itemId: number,
   watchCount: number,
 }
 
 export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsButtonProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const [itemDetails, setItemDetails] = useState<EbayItemDetails | null>(null)
 
   const formatter = new Intl.NumberFormat('en-US', {
@@ -32,16 +34,21 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
   const handleDetails = async () => {
     try {
       setItemDetails(null);
+      setIsLoading(true);
       const response = await fetch(`/api/ebay/item?itemId=${itemId}`);
       const data = await response.json();
-      console.log('api data: ', data)
+      if (!response.ok) {
+        throw new Error(data.error);
+      }
+      setIsLoading(false);
       setItemDetails(data)
     } catch (error: unknown) {
       let errorMessage = 'An unknown error occurred';
       if (error instanceof Error) {
         errorMessage = error.message;
       }
-
+      setIsLoading(false);
+      setOpen(false);
       toast({
         title: `Error: ${errorMessage}`,
         description: 'Check the browser console for more info.',
@@ -51,16 +58,16 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button onClick={handleDetails}>Details</Button>
       </DialogTrigger>
       <DialogContent>
-        {!itemDetails ?
+        {isLoading ?
           <div className="flex justify-center items-center h-[300px]">
             <PropagateLoader color="#000" />
           </div>
-          :
+          : itemDetails ?
           <>
             <div className="inline-flex justify-start">
               <span><Image width={20} height={20} src="/heart.webp" alt='heart' /></span>
@@ -72,7 +79,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                   opts={{
                     align: "center",
                   }}
-                  className="pt-2 pb-5 flex items-center m-auto md:max-w-[410px] max-w-xs"
+                  className="pt-2 pb-5 flex items-center m-auto max-w-[410px]"
                 >
                   <CarouselContent>
                     <CarouselItem key='Primary Image'>
@@ -138,7 +145,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
               </DialogDescription>
             </ScrollArea>
           </>
-        }
+        : null}
       </DialogContent>
     </Dialog >
   )

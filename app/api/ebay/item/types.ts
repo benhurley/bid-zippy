@@ -105,7 +105,7 @@ interface Price {
     paymentMethodBrands?: PaymentMethodBrand[];
   }
   
-  interface EbayItemDetails {
+  export interface EbayItemDetails {
     itemId: string;
     sellerItemRevision: string;
     title: string;
