@@ -88,7 +88,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                           <img
                             src={itemDetails?.image?.imageUrl}
                             alt={'Primary Carousel Image'}
-                            className="w-full h-full object-cover rounded-lg"
+                            className="object-cover rounded-lg"
                           />
                         </CardContent>
                       </Card>
@@ -100,7 +100,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                             <img
                               src={image?.imageUrl}
                               alt={`Additional Image ${index + 1}`}
-                              className="w-full h-full object-cover rounded-lg"
+                              className="object-cover rounded-lg"
                             />
                           </CardContent>
                         </Card>
