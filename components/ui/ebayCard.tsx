@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -15,6 +12,11 @@ type EbayCardProps = {
 }
 
 export default function EbayCard({ item }: EbayCardProps) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
+      
     return (
         <a
             key='index'
@@ -41,7 +43,7 @@ export default function EbayCard({ item }: EbayCardProps) {
                     <CardTitle className="text-left text-md">{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-left text-md font-bold">Buy it Now: <span className="ml-1 font-normal">{`$${item.buyItNowPrice.value}`}</span></p>
+                    <p className="text-left text-md font-bold">Buy it Now: <span className="ml-1 font-normal">{formatter.format(item.buyItNowPrice.value)}</span></p>
                 </CardContent>
             </Card>
         </a>
