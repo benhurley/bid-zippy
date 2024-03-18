@@ -1,0 +1,145 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "./button"
+import { useState } from "react";
+import { toast } from "./use-toast";
+import Image from "next/image";
+import { PropagateLoader } from "react-spinners";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./carousel";
+import { Card, CardContent } from "./card";
+import { ScrollArea } from "@/components/ui/scroll-area"
+import ButtonLink from "./buttonLink";
+
+type EbayDetailsButtonProps = {
+  itemId: number,
+  watchCount: number,
+}
+
+export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsButtonProps) {
+  const [itemDetails, setItemDetails] = useState<EbayItemDetails | null>(null)
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
+  const handleDetails = async () => {
+    try {
+      setItemDetails(null);
+      const response = await fetch(`/api/ebay/item?itemId=${itemId}`);
+      const data = await response.json();
+      console.log('api data: ', data)
+      setItemDetails(data)
+    } catch (error: unknown) {
+      let errorMessage = 'An unknown error occurred';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      toast({
+        title: `Error: ${errorMessage}`,
+        description: 'Check the browser console for more info.',
+        variant: "destructive"
+      });
+    }
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button onClick={handleDetails}>Details</Button>
+      </DialogTrigger>
+      <DialogContent>
+        {!itemDetails ?
+          <div className="flex justify-center items-center h-[300px]">
+            <PropagateLoader color="#000" />
+          </div>
+          :
+          <>
+            <div className="inline-flex justify-start">
+              <span><Image width={20} height={20} src="/heart.webp" alt='heart' /></span>
+              <span className="ml-2">{watchCount}</span>
+            </div>
+            <ScrollArea className="mt-4 sm:max-h-[700px] max-h-[500px]">
+              <DialogHeader className="text-left">
+                <Carousel
+                  opts={{
+                    align: "center",
+                  }}
+                  className="pt-2 pb-5 flex items-center m-auto md:max-w-[410px] max-w-xs"
+                >
+                  <CarouselContent>
+                    <CarouselItem key='Primary Image'>
+                      <Card>
+                        <CardContent className="flex aspect-square items-center justify-center p-0">
+                          <img
+                            src={itemDetails?.image?.imageUrl}
+                            alt={'Primary Carousel Image'}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                    {itemDetails?.additionalImages?.map((image, index) => (
+                      <CarouselItem key={index}>
+                        <Card>
+                          <CardContent className="flex aspect-square items-center justify-center p-0">
+                            <img
+                              src={image?.imageUrl}
+                              alt={`Additional Image ${index + 1}`}
+                              className="w-full h-full object-cover rounded-lg"
+                            />
+                          </CardContent>
+                        </Card>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="invisible sm:visible" />
+                  <CarouselNext className="invisible sm:visible" />
+                </Carousel>
+                <DialogTitle tabIndex={0} className="font-bold text-lg mb-4">{itemDetails?.title}</DialogTitle>
+                {itemDetails?.marketingPrice?.originalPrice?.value ?
+                  <p tabIndex={0} className="mb-1 font-bold text-md">Price:
+                    <span className="ml-1 line-through">{formatter.format(parseInt(itemDetails.marketingPrice.originalPrice.value))}</span>
+                    <span className="text-red-600 ml-2">{formatter.format(parseInt(itemDetails.price.value))}</span>
+                  </p>
+                  :
+                  <p className="mb-1 font-bold text-md">Price:&nbsp;{formatter.format(parseInt(itemDetails.price.value))}</p>
+                }
+              </DialogHeader>
+              <DialogDescription>
+                {itemDetails?.shortDescription?.length > 20 && <p tabIndex={0} className="my-5">{itemDetails.shortDescription}</p>}
+                <div className="sm:columns-2 my-5">
+                  <p className="mb-1 font-bold text-md">Seller:<span className="font-normal ml-1">{itemDetails.seller.username}</span>
+                    {itemDetails?.seller?.feedbackPercentage &&
+                      (parseInt(itemDetails.seller.feedbackPercentage) > 90) ?
+                      <span className="text-green-600 font-normal ml-1">({itemDetails.seller.feedbackPercentage}%)</span>
+                      : <span className="text-red-600 font-normal ml-1">({itemDetails.seller.feedbackPercentage}%)</span>}
+                  </p>
+                  <p className="mb-1"><span className="font-bold">Condition:&nbsp;</span>{itemDetails.condition}</p>
+                  {itemDetails.estimatedAvailabilities[0].estimatedAvailableQuantity && <p className="mb-1"><span className="font-bold">In-Stock:&nbsp;</span>{itemDetails.estimatedAvailabilities[0].estimatedAvailableQuantity}</p>}
+                  {itemDetails.gender && <p className="mb-1"><span className="font-bold">Gender:&nbsp;</span>{itemDetails.gender}</p>}
+                  <div className="mt-4">
+                    <p className="mb-1">{itemDetails.estimatedAvailabilities[0].estimatedSoldQuantity} sold</p>
+                    {itemDetails?.qualifiedPrograms?.length > 0 && <p className="mb-1">{itemDetails.qualifiedPrograms[0].toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>}
+                    <p className="mb-1">Ships from {itemDetails.itemLocation.stateOrProvince || itemDetails.itemLocation.city}, {itemDetails.itemLocation.country}</p>
+                    {itemDetails.returnTerms.returnsAccepted && <p className="mb-1">Seller accepts returns</p>}
+                  </div>
+                </div>
+                <div className="py-5 flex justify-center items-center">
+                  <ButtonLink href={itemDetails.itemWebUrl} mobileCopy="View in eBay app" desktopCopy="View on eBay.com"/>
+                </div>
+              </DialogDescription>
+            </ScrollArea>
+          </>
+        }
+      </DialogContent>
+    </Dialog >
+  )
+}

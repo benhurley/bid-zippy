@@ -6,7 +6,7 @@ import SearchBar from "@/components/ui/searchBar";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster";
-import { EbayMostWatchedItem } from "@/lib/types";
+import { EbayMostWatchedItem } from "@/app/api/ebay/types";
 import { PropagateLoader } from "react-spinners";
 
 export default function Home() {

@@ -48,5 +48,3 @@ export type EbaySearchResultItem = {
     watchCount: number;
   };
   
-
-  
