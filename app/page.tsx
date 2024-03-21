@@ -56,7 +56,7 @@ export default function Home() {
         {isLoading ?
           <PropagateLoader color="#000" />
           : results.length > 0 && <p className="text-sm text-center p-4">Showing results for category: <span className="font-bold">{results.length > 0 && results[0].primaryCategoryName}</span></p>}
-        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 sm:grid-cols-2  grid-cols-1 lg:text-left">
+        <div className="mb-32 grid text-center lg:max-w-4xl lg:w-full lg:mb-0 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:text-left gap-6">
           {results.length > 0 && results?.map((item, index) => {
             return (
               <EbayCard

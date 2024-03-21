@@ -18,17 +18,15 @@ export default function EbayCard({ item }: EbayCardProps) {
         currency: 'USD',
     });
     return (
-        <Card className="m-2 transition ease-in-out lg:hover:-translate-y-1 shadow-lg duration-300">
+        <Card className="m-2 shadow-lg max-w-[275px]">
             <CardHeader>
                 <div className="inline-flex justify-end">
                     <span><Image width={20} height={20} src="/heart.webp" alt='heart' /></span>
                     <span className="ml-2">{item.watchCount}</span>
                 </div>
-                <div className="h-[150px] w-auto relative flex items-start">
-                    <Image
-                        className="object-contain h-full pb-2 mb-4"
-                        layout="fill"
-                        objectPosition="left"
+                <div className="h-[125px] w-auto relative flex items-start">
+                    <img
+                        className="object-contain h-full md:ml-6 ml-2 mb-4 rounded-md"
                         src={item.imageURL}
                         alt={item.title}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -37,7 +35,7 @@ export default function EbayCard({ item }: EbayCardProps) {
                 <CardTitle className="pt-5 text-left text-md">{item.title}</CardTitle>
             </CardHeader>
             <CardFooter className="flex justify-between">
-                <p className="text-left text-md font-bold">Price: <span className="ml-1 font-normal">{formatter.format(item.buyItNowPrice.value)}</span></p>
+                <p className="text-left text-md mr-1"><span className="font-bold mr-2">{formatter.format(item.buyItNowPrice.value)}</span></p>
                 <EbayDetailsButton itemId={item.itemId} watchCount={item.watchCount} />
             </CardFooter>
         </Card>

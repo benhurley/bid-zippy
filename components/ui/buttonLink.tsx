@@ -12,7 +12,7 @@ const ButtonLink = ({ href, mobileCopy, desktopCopy }: ButtonLinkProps) => {
       {/* Button visible on small screens */}
         <a
           href={href}
-          className="inline-block px-12 py-4 text-md text-white bg-primary hover:bg-primary/90 rounded-md transition duration-150 ease-in-out md:hidden"
+          className="w-full inline-block px-12 py-4 text-md text-center text-white bg-primary hover:bg-primary/90 rounded-md transition duration-150 ease-in-out md:hidden"
           target="_blank"
           rel="noopener noreferrer"
           role="button"
@@ -23,7 +23,7 @@ const ButtonLink = ({ href, mobileCopy, desktopCopy }: ButtonLinkProps) => {
       {/* Button visible on medium screens and above */}
         <a
           href={href}
-          className="hidden md:inline-block px-12 py-4 text-lg text-white bg-primary hover:bg-primary/90 rounded-md transition duration-150 ease-in-out"
+          className="hidden md:inline-block px-12 py-4 text-lg text-white bg-primary hover:bg-primary/90 rounded-md transition duration-300 ease-in-out lg:hover:scale-[103%]"
           target="_blank"
           rel="noopener noreferrer"
           role="button"

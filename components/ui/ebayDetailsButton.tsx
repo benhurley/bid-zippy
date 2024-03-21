@@ -12,7 +12,6 @@ import { toast } from "./use-toast";
 import Image from "next/image";
 import { PropagateLoader } from "react-spinners";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./carousel";
-import { Card, CardContent } from "./card";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ButtonLink from "./buttonLink";
 import { EbayItemDetails } from "@/app/api/ebay/item/types";
@@ -60,7 +59,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={handleDetails}>Details</Button>
+        <Button className='transition duration-300 ease-in-out lg:hover:scale-[103%]' onClick={handleDetails}>Details</Button>
       </DialogTrigger>
       <DialogContent>
         {isLoading ?
@@ -79,31 +78,23 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                   opts={{
                     align: "center",
                   }}
-                  className="pt-2 pb-5 flex items-center m-auto max-w-[410px]"
+                  className="pt-2 pb-5 flex items-center m-auto sm:max-w-[410px] max-w-[250px]"
                 >
                   <CarouselContent>
-                    <CarouselItem key='Primary Image'>
-                      <Card className="border-none">
-                        <CardContent className="flex aspect-square items-center justify-center p-0">
+                    <CarouselItem key='primary-item' className="flex item-center justify-center">
                           <img
                             src={itemDetails?.image?.imageUrl}
                             alt={'Primary Carousel Image'}
                             className="object-cover rounded-lg"
                           />
-                        </CardContent>
-                      </Card>
                     </CarouselItem>
                     {itemDetails?.additionalImages?.map((image, index) => (
-                      <CarouselItem key={index}>
-                        <Card className="border-none">
-                          <CardContent className="flex aspect-square items-center justify-center p-0">
+                      <CarouselItem key={`additional-item-${index}`} className="flex aspect-square items-center justify-center p-0">
                             <img
                               src={image?.imageUrl}
                               alt={`Additional Image ${index + 1}`}
                               className="object-cover rounded-lg"
                             />
-                          </CardContent>
-                        </Card>
                       </CarouselItem>
                     ))}
                   </CarouselContent>
@@ -112,16 +103,16 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                 </Carousel>
                 <DialogTitle tabIndex={0} className="font-bold md:text-lg text-sm mb-4">{itemDetails?.title}</DialogTitle>
                 {itemDetails?.marketingPrice?.originalPrice?.value ?
-                  <p tabIndex={0} className="mb-1 font-bold md:text-md text-sm">Price:
-                    <span className="ml-1 line-through">{formatter.format(parseInt(itemDetails.marketingPrice.originalPrice.value))}</span>
+                  <p tabIndex={0} className="mb-1 font-normal md:text-lg text-md">
+                    <span className="line-through">{formatter.format(parseInt(itemDetails.marketingPrice.originalPrice.value))}</span>
                     <span className="text-red-600 ml-2">{formatter.format(parseInt(itemDetails.price.value))}</span>
                   </p>
                   :
-                  <p className="mb-1 font-bold md:text-md text-sm">Price:&nbsp;{formatter.format(parseInt(itemDetails.price.value))}</p>
+                  <p className="mb-1 font-bold md:text-lg text-md">{formatter.format(parseInt(itemDetails.price.value))}</p>
                 }
               </DialogHeader>
               <DialogDescription>
-                {itemDetails?.shortDescription?.length > 20 && <p tabIndex={0} className="my-5">{itemDetails.shortDescription}</p>}
+                {itemDetails?.shortDescription?.length > 20 && <p tabIndex={0} className="my-4">{itemDetails.shortDescription}</p>}
                 <div className="sm:columns-2 my-5">
                   <p className="mb-1 font-bold text-md">Seller:<span className="font-normal ml-1">{itemDetails.seller.username}</span>
                     {itemDetails?.seller?.feedbackPercentage &&
@@ -139,7 +130,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                     {itemDetails.returnTerms.returnsAccepted && <p className="mb-1">Seller accepts returns</p>}
                   </div>
                 </div>
-                <div className="py-5 flex justify-center items-center">
+                <div className="pt-5 pb-8 flex justify-center items-center">
                   <ButtonLink href={itemDetails.itemWebUrl} mobileCopy="View in eBay app" desktopCopy="View on eBay.com"/>
                 </div>
               </DialogDescription>
