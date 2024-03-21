@@ -45,9 +45,9 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between sm:p-24 px-10 pt-24 pb-10">
+      <main className="flex min-h-screen flex-col items-center justify-between sm:p-24 px-10 pt-32 pb-10">
         <Header />
-        <div className="mb-12">
+        <div className="z-10 w-full sticky grid justify-center top-4 sm:top-0 bg-white">
           <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
         </div>
         {noResults &&

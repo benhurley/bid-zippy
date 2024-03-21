@@ -72,7 +72,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
               <span><Image width={20} height={20} src="/heart.webp" alt='heart' /></span>
               <span className="ml-2">{watchCount}</span>
             </div>
-            <ScrollArea className="mt-4 sm:max-h-[700px] max-h-[500px]">
+            <ScrollArea className="sm:max-h-[700px] max-h-[500px]">
               <DialogHeader className="text-left">
                 <Carousel
                   opts={{
