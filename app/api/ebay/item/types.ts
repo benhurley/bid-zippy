@@ -132,6 +132,7 @@ interface Price {
     taxes: Tax[];
     localizedAspects: LocalizedAspect[];
     itemWebUrl: string;
+    itemAffiliateWebUrl: string;
     description: string;
     paymentMethods: PaymentMethod[];
     enabledForGuestCheckout: boolean;

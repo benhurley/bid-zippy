@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster";
 import { EbayMostWatchedItem } from "@/app/api/ebay/types";
 import { PropagateLoader } from "react-spinners";
+//import EbayPartnerNetwork from "@/components/organisms/ebayPartnerNetwork";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -68,6 +69,8 @@ export default function Home() {
         </div>
       </main>
       <Toaster />
+      {/* Not needed while affiliate urls from api are in use */}
+      {/*<EbayPartnerNetwork campaignId={5339048923} />*/}
     </>
   );
 }

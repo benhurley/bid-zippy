@@ -131,7 +131,7 @@ export default function EbayDetailsButton({ itemId, watchCount }: EbayDetailsBut
                   </div>
                 </div>
                 <div className="pt-5 pb-8 flex justify-center items-center">
-                  <ButtonLink href={itemDetails.itemWebUrl} mobileCopy="View in eBay app" desktopCopy="View on eBay.com"/>
+                  <ButtonLink href={itemDetails.itemAffiliateWebUrl} mobileCopy="View in the eBay app" desktopCopy="View on eBay.com"/>
                 </div>
               </DialogDescription>
             </ScrollArea>

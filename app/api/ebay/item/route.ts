@@ -15,7 +15,11 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await eBay.buy.browse.getItemByLegacyId(params);
+    const response = await eBay.buy.browse.api({
+      headers: {
+        'X-EBAY-C-ENDUSERCTX': 'affiliateCampaignId=5339048923'
+    }
+    }).getItemByLegacyId(params);
 
     return new Response(JSON.stringify(response), {
       status: 200,
