@@ -3,17 +3,20 @@
 import Header from "@/components/organisms/header";
 import EbayCard from "@/components/ui/ebayCard";
 import SearchBar from "@/components/ui/searchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster";
 import { EbayMostWatchedItem } from "@/app/api/ebay/types";
 import { SyncLoader } from "react-spinners";
+import Image from "next/image";
 //import EbayPartnerNetwork from "@/components/organisms/ebayPartnerNetwork";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const [results, setResults] = useState<EbayMostWatchedItem[]>([])
+  const [isSticky, setIsSticky] = useState(false);
+
   const { toast } = useToast();
 
   const handleSearch = async (query: string) => {
@@ -44,19 +47,34 @@ export default function Home() {
     }
   };
 
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    setIsSticky(scrollTop > 150);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <main className="flex flex-col items-center justify-between min-h-screen lg:min-h-[30em] lg:mt-24 pb-10">
         <Header />
-        <div className="z-10 w-full sticky grid justify-center top-0 bg-white">
+        <div className={`z-10 w-full sticky grid justify-center top-0 bg-white ${isSticky ? 'shadow-xl' : ''}`}>
           <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
         </div>
         {noResults &&
           <p className="flex justify-center mx-auto">No results found.</p>
         }
         {isLoading ?
+        <div className="mt-20">
           <SyncLoader color="#000" speedMultiplier={0.6} />
-          : results.length > 0 && 
+        </div>
+          : results.length > 0 &&
           <div className="mb-6">
             <p className="text-sm text-center pt-4 pb-1">Showing results for category:</p>
             <p className="font-bold text-sm text-center">{results.length > 0 && results[0].primaryCategoryName}</p>
@@ -72,6 +90,7 @@ export default function Home() {
             )
           })}
         </div>
+        <Image className='relative mb-32 lg:mt-32' src="/ebayProgram.webp" alt="Member of Ebay's Developer Program" width={200} height={100} />
       </main>
       <Toaster />
       {/* Not needed while affiliate urls from api are in use */}
