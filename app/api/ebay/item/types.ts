@@ -120,7 +120,9 @@ interface Price {
     additionalImages: Image[];
     marketingPrice: MarketingPrice;
     ageGroup: string;
-    gender: string;
+    gender?: string;
+    pattern?: string;
+    material?: string;
     brand: string;
     itemCreationDate: string;
     seller: Seller;

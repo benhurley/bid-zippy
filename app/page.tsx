@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster";
 import { EbayMostWatchedItem } from "@/app/api/ebay/types";
-import { PropagateLoader } from "react-spinners";
+import { SyncLoader } from "react-spinners";
 //import EbayPartnerNetwork from "@/components/organisms/ebayPartnerNetwork";
 
 export default function Home() {
@@ -46,18 +46,23 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between sm:p-24 px-10 pt-32 pb-10">
+      <main className="flex flex-col items-center justify-between min-h-screen lg:min-h-[30em] lg:mt-24 pb-10">
         <Header />
-        <div className="z-10 w-full sticky grid justify-center top-4 sm:top-0 bg-white">
+        <div className="z-10 w-full sticky grid justify-center top-0 bg-white">
           <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
         </div>
         {noResults &&
           <p className="flex justify-center mx-auto">No results found.</p>
         }
         {isLoading ?
-          <PropagateLoader color="#000" />
-          : results.length > 0 && <p className="text-sm text-center p-4">Showing results for category: <span className="font-bold">{results.length > 0 && results[0].primaryCategoryName}</span></p>}
-        <div className="mb-32 grid text-center lg:max-w-4xl lg:w-full lg:mb-0 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:text-left gap-6">
+          <SyncLoader color="#000" speedMultiplier={0.6} />
+          : results.length > 0 && 
+          <div className="mb-6">
+            <p className="text-sm text-center pt-4 pb-1">Showing results for category:</p>
+            <p className="font-bold text-sm text-center">{results.length > 0 && results[0].primaryCategoryName}</p>
+          </div>
+        }
+        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:text-left gap-6">
           {results.length > 0 && results?.map((item, index) => {
             return (
               <EbayCard

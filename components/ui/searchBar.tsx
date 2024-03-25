@@ -21,7 +21,7 @@ export default function SearchBar({ handleSearch, isLoading }: TSearchBar) {
     };
 
     return (
-        <div className="pt-8 pb-4 sm:pb-8 sm:pt-4">
+        <div className="py-4">
             <div className="inline-flex justify-center mb-3">
                 <p className="flex sm:justify-start lg:text-lg text-sm">
                 Browse eBay&apos;s<span className="mx-1 font-bold">most-watched</span>items
