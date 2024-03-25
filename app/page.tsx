@@ -90,7 +90,7 @@ export default function Home() {
             )
           })}
         </div>
-        <Image className='relative mb-32 lg:mt-32' src="/ebayProgram.webp" alt="Member of Ebay's Developer Program" width={200} height={100} />
+        <Image className='relative mb-48 lg:mt-32' src="/ebayProgram.webp" alt="Member of Ebay's Developer Program" width={200} height={100} />
       </main>
       <Toaster />
       {/* Not needed while affiliate urls from api are in use */}
