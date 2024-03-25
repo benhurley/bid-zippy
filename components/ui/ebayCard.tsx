@@ -35,7 +35,7 @@ export default function EbayCard({ item }: EbayCardProps) {
                     <p className="font-bold text-center text-md pt-4 mb-2">Buy It Now: {formatter.format(item.buyItNowPrice.value)}</p>
                 </CardHeader>
                 <CardFooter className="self-end">
-                    <CardTitle className="text-left text-md font-normal">{item.title}</CardTitle>
+                    <CardTitle className="text-left md:text-md text-sm font-normal">{item.title}</CardTitle>
                 </CardFooter>
             </Card>
         </EbayDetailsWrapper>

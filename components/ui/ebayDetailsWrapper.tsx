@@ -96,7 +96,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                 <span><Image width={20} height={20} src="/heart.webp" alt='heart' /></span>
                 <span className="ml-2">{watchCount}</span>
               </div>
-              <ScrollArea className="sm:max-h-[600px] max-h-[400px] px-2">
+              <ScrollArea className="sm:max-h-[600px] max-h-[550px] px-2">
                 <DialogHeader className="text-left">
                   <Carousel
                     opts={{
@@ -109,7 +109,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                         <img
                           src={itemDetails?.image?.imageUrl}
                           alt={'Primary Carousel Image'}
-                          className="object-cover sm:max-h-[400px] max-h-[250px]"
+                          className="object-cover sm:max-h-[400px] max-h-[275px]"
                         />
                       </CarouselItem>
                       {itemDetails?.additionalImages?.map((image, index) => (
@@ -125,7 +125,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                     <CarouselPrevious className="invisible sm:visible" />
                     <CarouselNext className="invisible sm:visible" />
                   </Carousel>
-                  <DialogTitle tabIndex={0} className="font-bold md:text-xl sm:text-md text-sm mb-4">{itemDetails?.title}</DialogTitle>
+                  <DialogTitle tabIndex={0} className="font-bold md:text-xl sm:text-md text-sm pb-2">{itemDetails?.title}</DialogTitle>
                   {itemDetails?.marketingPrice?.originalPrice?.value ?
                     <p tabIndex={0} className="mb-1 font-normal md:text-lg text-md">
                       <span className="line-through">{formatter.format(parseInt(itemDetails.marketingPrice.originalPrice.value))}</span>
