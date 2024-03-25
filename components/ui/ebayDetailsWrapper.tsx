@@ -51,10 +51,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
               description: 'Item may have been removed. Showing results for the most similar item.',
               variant: "destructive"
             });
-            console.log('items before: ', itemGroupData)
-            const filteredItemGroupData = itemGroupData.items.filter((item) => item?.estimatedAvailabilities?.length > 0 && item.estimatedAvailabilities[0]?.estimatedAvailableQuantity !== 0)
-            console.log('items after: ', filteredItemGroupData)
-
+            const filteredItemGroupData = itemGroupData.items.filter((item: EbayItemDetails) => item?.estimatedAvailabilities?.length > 0 && item.estimatedAvailabilities[0]?.estimatedAvailableQuantity !== 0)
             setItemDetails(filteredItemGroupData[0]);
             setIsLoading(false);
           }
