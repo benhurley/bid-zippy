@@ -109,7 +109,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                         <img
                           src={itemDetails?.image?.imageUrl}
                           alt={'Primary Carousel Image'}
-                          className="object-cover sm:max-h-[400px] max-h-[275px]"
+                          className="object-cover sm:max-h-[400px] max-h-[300px]"
                         />
                       </CarouselItem>
                       {itemDetails?.additionalImages?.map((image, index) => (
@@ -117,7 +117,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                           <img
                             src={image?.imageUrl}
                             alt={`Additional Image ${index + 1}`}
-                            className="object-cover sm:max-h-[400px] max-h-[250px]"
+                            className="object-cover sm:max-h-[400px] max-h-[300px]"
                           />
                         </CarouselItem>
                       ))}
@@ -139,14 +139,14 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                   <div className="my-5">
                     {/* Short Description */}
                     {itemDetails?.shortDescription?.length > 20 && (
-                      <div className="flex my-4 items-start">
+                      <div className="flex my-2 items-start">
                         <p className="font-bold text-md sm:w-32 w-24">Description</p>
                         <p className="flex-1">{itemDetails.shortDescription}</p>
                       </div>
                     )}
 
                     {/* Seller Information */}
-                    <div className="flex mb-1 items-center">
+                    <div className="flex my-1 items-center">
                       <p className="font-bold text-md sm:w-32 w-24">Seller</p>
                       <div className="flex-1">
                         <span>{itemDetails.seller.username}</span>
@@ -159,14 +159,14 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                     </div>
 
                     {/* Item Condition */}
-                    <div className="flex mb-1 items-center">
+                    <div className="flex my-1 items-center">
                       <p className="font-bold sm:w-32 w-24">Condition</p>
                       <p className="flex-1">{itemDetails.condition}</p>
                     </div>
 
                     {/* Quantity Available */}
                     {itemDetails.estimatedAvailabilities[0].estimatedAvailableQuantity > 0 && (
-                      <div className="flex mb-1 items-center">
+                      <div className="flex my-1 items-center">
                         <p className="font-bold sm:w-32 w-24">Quantity</p>
                         <p className="flex-1">{itemDetails.estimatedAvailabilities[0].estimatedAvailableQuantity} Available</p>
                       </div>
@@ -174,7 +174,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
 
                     {/* Gender */}
                     {itemDetails?.gender && (
-                      <div className="flex mb-1 items-center">
+                      <div className="flex my-1 items-center">
                         <p className="font-bold sm:w-32 w-24">Gender</p>
                         <p className="flex-1">{itemDetails.gender}</p>
                       </div>
@@ -182,7 +182,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
 
                     {/* Material */}
                     {itemDetails?.material && (
-                      <div className="flex mb-1 items-center">
+                      <div className="flex my-1 items-center">
                         <p className="font-bold sm:w-32 w-24">Material</p>
                         <p className="flex-1">{itemDetails.material}</p>
                       </div>
@@ -190,7 +190,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
 
                     {/* Pattern */}
                     {itemDetails?.pattern && (
-                      <div className="flex mb-1 items-center">
+                      <div className="flex my-1 items-center">
                         <p className="font-bold sm:w-32 w-24">Pattern</p>
                         <p className="flex-1">{itemDetails.pattern}</p>
                       </div>
@@ -198,14 +198,14 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
 
                     {/* Additional Information as needed */}
                     {itemDetails.estimatedAvailabilities[0].estimatedSoldQuantity > 0 && (
-                      <div className="flex mb-1 items-center">
+                      <div className="flex my-1 items-center">
                         <p className="font-bold sm:w-32 w-24">Sold</p>
                         <p className="flex-1">{itemDetails.estimatedAvailabilities[0].estimatedSoldQuantity} (to date)</p>
                       </div>
                     )}
 
                     {itemDetails?.qualifiedPrograms?.length > 0 && (
-                      <div className="flex mb-1 items-center">
+                      <div className="flex my-1 items-center">
                         <p className="font-bold sm:w-32 w-24">Program</p>
                         <p className="flex-1">
                           {itemDetails.qualifiedPrograms[0]
@@ -217,7 +217,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                       </div>
                     )}
 
-                    <div className="flex mb-1 items-center">
+                    <div className="flex my-1 items-center">
                       <p className="font-bold sm:w-32 w-24">Location</p>
                       <p className="flex-1">
                         {itemDetails.itemLocation.stateOrProvince || itemDetails.itemLocation.city}, {itemDetails.itemLocation.country}
@@ -225,7 +225,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                     </div>
 
                     {itemDetails.returnTerms.returnsAccepted && (
-                      <div className="flex mb-1 items-center">
+                      <div className="flex my-1 items-center">
                         <p className="font-bold sm:w-32 w-24">Returns</p>
                         <p className="flex-1">Seller accepts returns</p>
                       </div>
