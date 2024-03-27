@@ -128,6 +128,7 @@ export default function EbayDetailsWrapper({ children, itemId, watchCount }: Eba
                   <DialogTitle tabIndex={0} className="font-bold md:text-xl sm:text-md text-sm pb-2">{itemDetails?.title}</DialogTitle>
                   {itemDetails?.marketingPrice?.originalPrice?.value ?
                     <p tabIndex={0} className="mb-1 font-normal md:text-lg text-md">
+                      <span className="font-bold mr-2">Buy It Now:</span>
                       <span className="line-through">{formatter.format(parseInt(itemDetails.marketingPrice.originalPrice.value))}</span>
                       <span className="text-red-600 ml-2">{formatter.format(parseInt(itemDetails.price.value))}</span>
                     </p>

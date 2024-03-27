@@ -49,7 +49,7 @@ export default function Home() {
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
-    setIsSticky(scrollTop > 150);
+    setIsSticky(window.innerWidth > 1024 ? scrollTop > 375 : scrollTop > 210);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function Home() {
     <>
       <main className="flex flex-col items-center justify-between min-h-screen lg:min-h-[30em] lg:mt-24 pb-10">
         <Header />
-        <div className={`z-10 w-full sticky grid justify-center top-0 bg-white ${isSticky ? 'shadow-xl' : ''}`}>
+        <div className={`z-10 w-full sticky grid justify-center top-0 bg-white ${isSticky ? 'shadow-xl bg-gradient-to-r from-indigo-100 from-10% via-sky-100 via-30% to-emerald-100 to-90%' : ''}`}>
           <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
         </div>
         {noResults &&
