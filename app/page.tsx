@@ -80,7 +80,7 @@ export default function Home() {
             <p className="font-bold text-sm text-center">{results.length > 0 && results[0].primaryCategoryName}</p>
           </div>
         }
-        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:text-left gap-6">
+        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 grid-cols-2 lg:text-left md:gap-6 gap-0 px-2">
           {results.length > 0 && results?.map((item, index) => {
             return (
               <EbayCard
