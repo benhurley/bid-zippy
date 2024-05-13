@@ -1,37 +1,51 @@
 'use client'
 
 import Header from "@/components/organisms/header";
-import EbayCard from "@/components/ui/ebayCard";
+import EbayMostWatchedCard from "@/components/ui/ebayMostWatchedCard";
 import SearchBar from "@/components/ui/searchBar";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster";
-import { EbayMostWatchedItem } from "@/app/api/ebay/types";
+import { EbayHasBidsItem, EbayMostWatchedItem } from "@/app/api/ebay/types";
 import { SyncLoader } from "react-spinners";
 import Image from "next/image";
+import EbayHasBidsCard from "@/components/ui/ebayHasBidsCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 //import EbayPartnerNetwork from "@/components/organisms/ebayPartnerNetwork";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
-  const [results, setResults] = useState<EbayMostWatchedItem[]>([])
+  const [mostWatchedResults, setMostWatchedResults] = useState<EbayMostWatchedItem[]>([])
+  const [hasBidsResults, setHasBidsResults] = useState<EbayHasBidsItem[]>([])
   const [isSticky, setIsSticky] = useState(false);
+  const [mode, setMode] = useState('hasBids')
 
   const { toast } = useToast();
 
   const handleSearch = async (query: string) => {
     try {
       setNoResults(false);
-      setResults([]);
+      setMostWatchedResults([]);
       setIsLoading(true);
-      const response = await fetch(`/api/ebay?query=${encodeURIComponent(query)}`);
-      const data = await response.json();
-      console.log('api data: ', data.itemRecommendations?.item)
-      if (data.itemRecommendations?.item.length === 0 || !data.itemRecommendations?.item) {
-        setNoResults(true);
+      if (mode === 'watchCount') {
+        const response = await fetch(`/api/ebay?query=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        if (data.itemRecommendations?.item.length === 0 || !data.itemRecommendations?.item) {
+          setNoResults(true);
+        }
+        setMostWatchedResults(data.itemRecommendations?.item || []);
+        setIsLoading(false);
+      } else if (mode === 'hasBids') {
+        const response = await fetch(`/api/ebay/items?keywords=${encodeURIComponent(query)}`);
+        const data = await response.json();
+
+        if (data.searchResult?.item?.length === 0 || !data.searchResult?.item) {
+          setNoResults(true);
+        }
+        setHasBidsResults(data.searchResult?.item || []);
+        setIsLoading(false);
       }
-      setResults(data.itemRecommendations?.item || []);
-      setIsLoading(false);
     } catch (error: unknown) {
       let errorMessage = 'An unknown error occurred';
       if (error instanceof Error) {
@@ -49,7 +63,7 @@ export default function Home() {
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
-    setIsSticky(window.innerWidth > 1024 ? scrollTop > 375 : scrollTop > 210);
+    setIsSticky(window.innerWidth > 1024 ? scrollTop > 500 : scrollTop > 275);
   };
 
   useEffect(() => {
@@ -64,6 +78,21 @@ export default function Home() {
     <>
       <main className="flex flex-col items-center justify-between min-h-screen lg:min-h-[30em] lg:mt-24 pb-10">
         <Header />
+        <div className="inline-flex justify-left lg:mb-10 md:w-[400px] w-[315px]">
+          <Tabs defaultValue="hasBids">
+            <h2 className="font-bold mb-2">Select a Search Mode:</h2>
+            <div className="mb-2">
+              <TabsList>
+                <TabsTrigger value="hasBids" onClick={() => setMode('hasBids')}>Active Bids</TabsTrigger>
+                <TabsTrigger value="watchCount" onClick={() => setMode('watchCount')}>Watch Count</TabsTrigger>
+              </TabsList>
+            </div>
+            <div className="mt-4 text-sm">
+              <TabsContent value="watchCount">Search results are pre-sorted by watch count</TabsContent>
+              <TabsContent value="hasBids">Search results are pre-filtered for 1+ bids</TabsContent>
+            </div>
+          </Tabs>
+        </div>
         <div className={`z-10 w-full sticky grid justify-center top-0 bg-white ${isSticky ? 'shadow-xl bg-gradient-to-r from-indigo-100 from-10% via-sky-100 via-30% to-emerald-100 to-90%' : ''}`}>
           <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
         </div>
@@ -71,19 +100,27 @@ export default function Home() {
           <p className="flex justify-center mx-auto">No results found.</p>
         }
         {isLoading ?
-        <div className="mt-20">
-          <SyncLoader color="#000" speedMultiplier={0.6} />
-        </div>
-          : results.length > 0 &&
+          <div className="mt-20">
+            <SyncLoader color="#000" speedMultiplier={0.6} />
+          </div>
+          : mode === 'watchCount' && mostWatchedResults.length > 0 &&
           <div className="mb-6">
             <p className="text-sm text-center pt-4 pb-1">Showing results for category:</p>
-            <p className="font-bold text-sm text-center">{results.length > 0 && results[0].primaryCategoryName}</p>
+            <p className="font-bold text-sm text-center">{mostWatchedResults.length > 0 && mostWatchedResults[0].primaryCategoryName}</p>
           </div>
         }
-        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 grid-cols-2 lg:text-left md:gap-6 gap-0 px-2">
-          {results.length > 0 && results?.map((item, index) => {
+        <div className="mb-32 grid text-center lg:max-w-6xl lg:w-full lg:mb-0 lg:grid-cols-3 grid-cols-2 lg:text-left md:gap-6 gap-0 px-2 md:mt-5">
+          {mode === 'watchCount' && mostWatchedResults.length > 0 && mostWatchedResults.map((item, index) => {
             return (
-              <EbayCard
+              <EbayMostWatchedCard
+                key={index}
+                item={item}
+              />
+            )
+          })}
+          {mode === 'hasBids' && hasBidsResults.length > 0 && hasBidsResults.map((item, index) => {
+            return (
+              <EbayHasBidsCard
                 key={index}
                 item={item}
               />

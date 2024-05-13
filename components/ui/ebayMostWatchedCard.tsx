@@ -6,19 +6,19 @@ import {
 } from "@/components/ui/card"
 import { EbayMostWatchedItem } from "@/app/api/ebay/types";
 import Image from "next/image";
-import EbayDetailsWrapper from "./ebayDetailsWrapper";
+import EbayMostWatchedDetailsWrapper from "./ebayMostWatchedDetailsWrapper";
 
 type EbayCardProps = {
     item: EbayMostWatchedItem,
 }
 
-export default function EbayCard({ item }: EbayCardProps) {
+export default function EbayMostWatchedCard({ item }: EbayCardProps) {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     });
     return (
-        <EbayDetailsWrapper itemId={item.itemId} watchCount={item.watchCount}>
+        <EbayMostWatchedDetailsWrapper itemId={item.itemId} watchCount={item.watchCount}>
             <Card className="m-2 shadow-lg flex flex-col sm:h-[350px] min-h-[250px] max-w-[325px] min-w-[150px]">
                 <CardHeader className="flex-grow">
                         <div className="inline-flex justify-start">
@@ -38,6 +38,6 @@ export default function EbayCard({ item }: EbayCardProps) {
                     <CardTitle className="text-left md:text-md text-sm font-normal">{item.title.slice(0,250)}</CardTitle>
                 </CardFooter>
             </Card>
-        </EbayDetailsWrapper>
+        </EbayMostWatchedDetailsWrapper>
     )
 }

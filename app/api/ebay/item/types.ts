@@ -135,6 +135,7 @@ interface Price {
     localizedAspects: LocalizedAspect[];
     itemWebUrl: string;
     itemAffiliateWebUrl: string;
+    itemEndDate?: string;
     description: string;
     paymentMethods: PaymentMethod[];
     enabledForGuestCheckout: boolean;
@@ -146,5 +147,11 @@ interface Price {
     adultOnly: boolean;
     categoryId: string;
     listingMarketplaceId: string;
+    currentBidPrice?: {
+      currency: string,
+      value: string,
+    }
+    uniqueBidderCount?: number;
+    bidCount?: number;
   }
   

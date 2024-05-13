@@ -14,13 +14,14 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ButtonLink from "./buttonLink";
 import { EbayItemDetails } from "@/app/api/ebay/item/types";
+
 type EbayDetailsWrapperProps = {
   children: ReactNode,
   itemId: number,
-  watchCount: number,
+  watchCount?: number,
 }
 
-export default function EbayDetailsWrapper({ children, itemId, watchCount }: EbayDetailsWrapperProps) {
+export default function EbayMostWatchedDetailsWrapper({ children, itemId, watchCount }: EbayDetailsWrapperProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [itemDetails, setItemDetails] = useState<EbayItemDetails | null>(null)
