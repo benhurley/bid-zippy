@@ -94,7 +94,7 @@ export default function EbayMostWatchedDetailsWrapper({ children, itemId, watchC
           : itemDetails ?
             <>
               <div className="inline-flex justify-start">
-                <span><Image width={20} height={20} src="/heart.webp" alt='heart' /></span>
+                <span><Image width={20} height={20} src={watchCount && watchCount > 50 ? "/heart-fire.webp" : "/heart.webp"} alt='heart' /></span>
                 <span className="ml-2">{watchCount}</span>
               </div>
               <ScrollArea className="sm:max-h-[600px] max-h-[550px] px-2">

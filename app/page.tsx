@@ -25,26 +25,38 @@ export default function Home() {
 
   const handleSearch = async (query: string) => {
     try {
+      window.scrollTo(0, 0);
       setNoResults(false);
       setMostWatchedResults([]);
       setIsLoading(true);
       if (mode === 'watchCount') {
-        const response = await fetch(`/api/ebay?query=${encodeURIComponent(query)}`);
-        const data = await response.json();
-        if (data.itemRecommendations?.item.length === 0 || !data.itemRecommendations?.item) {
-          setNoResults(true);
-        }
-        setMostWatchedResults(data.itemRecommendations?.item || []);
+        if (query.length > 0) {
+          const response = await fetch(`/api/ebay?query=${encodeURIComponent(query)}`);
+          const data = await response.json();
+          if (data.itemRecommendations?.item.length === 0 || !data.itemRecommendations?.item) {
+            setNoResults(true);
+          }
+          setMostWatchedResults(data.itemRecommendations?.item || []);
+          setIsLoading(false);
+      } else {
+        setMostWatchedResults([])
         setIsLoading(false);
+      }
+        
       } else if (mode === 'hasBids') {
-        const response = await fetch(`/api/ebay/items?keywords=${encodeURIComponent(query)}`);
-        const data = await response.json();
-
-        if (data.searchResult?.item?.length === 0 || !data.searchResult?.item) {
-          setNoResults(true);
+        if (query.length > 0) {
+          const response = await fetch(`/api/ebay/items?keywords=${encodeURIComponent(query)}`);
+          const data = await response.json();
+  
+          if (data.searchResult?.item?.length === 0 || !data.searchResult?.item) {
+            setNoResults(true);
+          }
+          setHasBidsResults(data.searchResult?.item || []);
+          setIsLoading(false);
+        } else {
+          setHasBidsResults([]);
+          setIsLoading(false);
         }
-        setHasBidsResults(data.searchResult?.item || []);
-        setIsLoading(false);
       }
     } catch (error: unknown) {
       let errorMessage = 'An unknown error occurred';
@@ -63,7 +75,7 @@ export default function Home() {
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
-    setIsSticky(window.innerWidth > 1024 ? scrollTop > 500 : scrollTop > 275);
+    setIsSticky(window.innerWidth > 1024 ? scrollTop > 500 : scrollTop > 300);
   };
 
   useEffect(() => {

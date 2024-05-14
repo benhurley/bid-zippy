@@ -8,7 +8,7 @@ type TSearchBar = {
 }
 
 export default function SearchBar({ handleSearch, isLoading }: TSearchBar) {
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState('');
     const [hasSubmit, setHasSubmit] = useState(false);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,8 @@ export default function SearchBar({ handleSearch, isLoading }: TSearchBar) {
       };
 
     const handleClear = () => {
-        setQuery("");
+        setQuery('')
+        handleSearch('')
         setHasSubmit(false)
     };
 
