@@ -100,8 +100,8 @@ export default function Home() {
               </TabsList>
             </div>
             <div className="mt-4 text-sm">
-              <TabsContent value="watchCount">Search results are pre-sorted by watch count</TabsContent>
-              <TabsContent value="hasBids">Search results are pre-filtered for 1+ bids</TabsContent>
+              <TabsContent value="watchCount">Results will be sorted by watch count<Image className="inline-flex ml-1" width={20} height={20} src="/heart.webp" alt='heart' /></TabsContent>
+              <TabsContent value="hasBids">All results will have at least 1 active bid</TabsContent>
             </div>
           </Tabs>
         </div>
