@@ -27,6 +27,16 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
     const [open, setOpen] = useState(false);
     const [itemDetails, setItemDetails] = useState<EbayItemDetails | null>(null)
 
+    const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+    // Function to open zoomed image
+    const openZoomedImage = (imageUrl: string) => {
+        setZoomedImage(imageUrl);
+    };
+    // Function to close zoomed image
+    const closeZoomedImage = () => {
+        setZoomedImage(null);
+    };
+
     const handleDetails = async () => {
         try {
             setItemDetails(null);
@@ -102,19 +112,21 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                                         className="pt-2 pb-5 flex items-center m-auto sm:max-w-[410px] max-w-[250px]"
                                     >
                                         <CarouselContent>
-                                            <CarouselItem key='primary-item' className="flex item-center justify-center">
+                                            <CarouselItem key='primary-item' className="flex item-center justify-center cursor-pointer">
                                                 <img
                                                     src={itemDetails?.image?.imageUrl}
                                                     alt={'Primary Carousel Image'}
                                                     className="object-cover sm:max-h-[400px] max-h-[300px]"
+                                                    onClick={() => openZoomedImage(itemDetails.image.imageUrl)}
                                                 />
                                             </CarouselItem>
                                             {itemDetails?.additionalImages?.map((image, index) => (
-                                                <CarouselItem key={`additional-item-${index}`} className="flex aspect-square items-center justify-center p-0">
+                                                <CarouselItem key={`additional-item-${index}`} className="flex aspect-square items-center justify-center p-0 cursor-pointer">
                                                     <img
                                                         src={image?.imageUrl}
                                                         alt={`Additional Image ${index + 1}`}
                                                         className="object-cover sm:max-h-[400px] max-h-[300px]"
+                                                        onClick={() => openZoomedImage(image.imageUrl)}
                                                     />
                                                 </CarouselItem>
                                             ))}
@@ -239,6 +251,11 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                             </ScrollArea>
                         </>
                         : null}
+                {zoomedImage && (
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-[1000] cursor-pointer" onClick={closeZoomedImage}>
+                        <Image src={zoomedImage} alt="zoomed-image" layout="fill" objectFit="contain" />
+                    </div>
+                )}
             </DialogContent>
         </Dialog >
     )
