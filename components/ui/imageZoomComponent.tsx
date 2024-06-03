@@ -55,7 +55,6 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         onPinch: ({ offset: [d], memo }) => {
             if (memo === undefined) memo = zoomLevel;
             setZoomLevel(memo * d);
-            setIsMaxZoom(zoomLevel >= 3);
             return memo;
         },
         onDrag: ({ offset: [x, y] }) => {
@@ -63,7 +62,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         }
     });
 
-    const isMobile = typeof window !== 'undefined' && /Mobi|Android/i.test(window.navigator.userAgent);
+    const isMobile = window.innerWidth < 1000;
 
     return (
         <>
