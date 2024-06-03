@@ -55,6 +55,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         onPinch: ({ offset: [d], memo }) => {
             if (memo === undefined) memo = zoomLevel;
             setZoomLevel(memo * d);
+            setIsMaxZoom(zoomLevel >= 3);
             return memo;
         },
         onDrag: ({ offset: [x, y] }) => {
@@ -62,7 +63,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         }
     });
 
-    const isMobile = window.innerWidth < 1000;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 700;
 
     return (
         <>
@@ -74,10 +75,10 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
                     <div
                         {...(isMobile ? bind() : {})}
                         className="relative w-[80vw] h-[80vh] overflow-hidden"
-                        onMouseMove={isMobile ? undefined : handleMouseMove}
-                        onClick={isMobile ? undefined : handleZoomIn}
-                        onTouchMove={isMobile ? handleMouseMove : undefined}
-                        onTouchEnd={isMobile ? handleZoomIn : undefined}
+                        onMouseMove={!isMobile ? handleMouseMove : undefined}
+                        onClick={!isMobile ? handleZoomIn : undefined}
+                        onTouchMove={isMobile ? (e) => handleMouseMove(e as unknown as React.MouseEvent<HTMLDivElement>) : undefined}
+                        onTouchEnd={isMobile ? (e) => handleZoomIn(e as unknown as React.MouseEvent<HTMLDivElement>) : undefined}
                         style={{
                             cursor: isMaxZoom ? 'default' : 'zoom-in',
                             touchAction: isMobile ? 'none' : 'auto',
