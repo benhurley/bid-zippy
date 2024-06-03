@@ -1,5 +1,5 @@
-// ImageZoomComponent.tsx
 import React, { useState, useEffect } from 'react';
+import { useGesture } from '@use-gesture/react';
 import Image from 'next/image';
 
 interface ImageZoomComponentProps {
@@ -11,12 +11,20 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
     const [zoom, setZoom] = useState({ x: 50, y: 50 });
     const [zoomLevel, setZoomLevel] = useState(1);
     const [isMaxZoom, setIsMaxZoom] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
         if (!zoomedImage) {
             resetZoom();
         }
     }, [zoomedImage]);
+
+    const resetZoom = () => {
+        setZoomLevel(1);
+        setIsMaxZoom(false);
+        setZoom({ x: 50, y: 50 });
+        setPosition({ x: 0, y: 0 });
+    };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isMaxZoom) {
@@ -27,20 +35,11 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         }
     };
 
-    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (!isMaxZoom) {
-            const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-            const x = ((e.touches[0].clientX - left) / width) * 100;
-            const y = ((e.touches[0].clientY - top) / height) * 100;
-            setZoom({ x, y });
-        }
-    };
-
-    const handleZoomIn = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    const handleZoomIn = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation(); // Prevent closing the zoomed image
         setZoomLevel(prev => {
             const newZoomLevel = Math.min(prev + 0.5, 3); // Increase zoom level with a cap of 3
-            if (newZoomLevel >= 3) {
+            if (newZoomLevel >= 4) {
                 setIsMaxZoom(true);
             }
             return newZoomLevel;
@@ -52,11 +51,19 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         resetZoom();
     };
 
-    const resetZoom = () => {
-        setZoomLevel(1);
-        setIsMaxZoom(false);
-        setZoom({ x: 50, y: 50 });
-    };
+    const bind = useGesture({
+        onPinch: ({ offset: [d], memo }) => {
+            if (memo === undefined) memo = zoomLevel;
+            setZoomLevel(memo * d);
+            setIsMaxZoom(zoomLevel >= 3);
+            return memo;
+        },
+        onDrag: ({ offset: [x, y] }) => {
+            setPosition({ x, y });
+        }
+    });
+
+    const isMobile = typeof window !== 'undefined' && /Mobi|Android/i.test(window.navigator.userAgent);
 
     return (
         <>
@@ -66,37 +73,49 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
                     onClick={closeZoomedImage}
                 >
                     <div
+                        {...(isMobile ? bind() : {})}
                         className="relative w-[80vw] h-[80vh] overflow-hidden"
-                        onMouseMove={handleMouseMove}
-                        onClick={handleZoomIn}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleZoomIn}
+                        onMouseMove={isMobile ? undefined : handleMouseMove}
+                        onClick={isMobile ? undefined : handleZoomIn}
+                        onTouchMove={isMobile ? handleMouseMove : undefined}
+                        onTouchEnd={isMobile ? handleZoomIn : undefined}
                         style={{
                             cursor: isMaxZoom ? 'default' : 'zoom-in',
+                            touchAction: isMobile ? 'none' : 'auto',
                             transformOrigin: `${zoom.x}% ${zoom.y}%`,
                         }}
                     >
-                        <Image
-                            src={zoomedImage}
-                            alt="zoomed-image"
-                            layout="fill"
-                            objectFit="contain"
-                            className={`transition-transform duration-200`}
-                            style={{ transform: `scale(${zoomLevel})`, transformOrigin: `${zoom.x}% ${zoom.y}%` }}
-                        />
+                        <div
+                            style={{
+                                transform: isMobile
+                                    ? `scale(${zoomLevel}) translate(${position.x}px, ${position.y}px)`
+                                    : `scale(${zoomLevel})`,
+                                transformOrigin: `${zoom.x}% ${zoom.y}%`,
+                                width: '100%',
+                                height: '100%',
+                            }}
+                        >
+                            <Image
+                                src={zoomedImage}
+                                alt="zoomed-image"
+                                layout="fill"
+                                objectFit="contain"
+                                className={`transition-transform duration-200`}
+                            />
+                        </div>
                     </div>
                     <div className="absolute top-5 right-5 flex space-x-2">
-                        {zoomLevel > 1 && <button
-                            className="bg-gray-500 text-white p-2 rounded border-2 border-gray-700"
-                            onClick={handleResetZoom}
-                        >
-                            Reset Zoom
-                        </button>}
                         <button
                             className="bg-blue-500 text-white p-2 rounded border-2 border-blue-700"
                             onClick={closeZoomedImage}
                         >
-                            Back to Listing
+                            Close
+                        </button>
+                        <button
+                            className="bg-gray-500 text-white p-2 rounded border-2 border-gray-700"
+                            onClick={handleResetZoom}
+                        >
+                            Reset Zoom
                         </button>
                     </div>
                 </div>
