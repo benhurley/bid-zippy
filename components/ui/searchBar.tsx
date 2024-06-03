@@ -48,7 +48,7 @@ export default function SearchBar({ handleSearch, isLoading }: TSearchBar) {
                     />
                     {query.length > 0 && (
                         <button
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-black rounded-md text-2xl p-1"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-black rounded-md text-2xl p-1 pb-1.5"
                             onClick={handleClear}
                         >
                             &times;

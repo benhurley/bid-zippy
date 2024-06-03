@@ -121,7 +121,7 @@ export default function Home() {
             <p className="font-bold text-sm text-center">{mostWatchedResults.length > 0 && mostWatchedResults[0].primaryCategoryName}</p>
           </div>
         }
-        <div className="mb-32 grid text-center lg:max-w-6xl lg:w-full lg:mb-0 lg:grid-cols-3 grid-cols-2 lg:text-left md:gap-6 gap-0 px-2 md:mt-5">
+        <div className="mb-32 grid text-center lg:max-w-6xl lg:w-full lg:mb-0 lg:grid-cols-3 grid-cols-1 lg:text-left md:gap-6 gap-0 px-2 md:mt-5">
           {mode === 'watchCount' && mostWatchedResults.length > 0 && mostWatchedResults.map((item, index) => {
             return (
               <EbayMostWatchedCard
