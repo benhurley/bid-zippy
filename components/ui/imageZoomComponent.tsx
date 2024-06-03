@@ -93,7 +93,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
                         onMouseMove={!isMobile ? handleMouseMove : undefined}
                         onClick={!isMobile ? handleZoomIn : undefined}
                         style={{
-                            cursor: zoomLevel > 1 ? 'move' : 'zoom-in',
+                            cursor: zoomLevel >= 3 ? 'move' : 'zoom-in',
                             touchAction: isMobile ? 'none' : 'auto',
                             transformOrigin: `${zoom.x}% ${zoom.y}%`,
                         }}
