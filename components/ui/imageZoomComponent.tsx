@@ -77,7 +77,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         }
     });
 
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 700;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 1000;
 
     return (
         <>
