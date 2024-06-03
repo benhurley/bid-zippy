@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useGesture } from '@use-gesture/react';
 import Image from 'next/image';
 
@@ -12,6 +12,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
     const [zoomLevel, setZoomLevel] = useState(1);
     const [isMaxZoom, setIsMaxZoom] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!zoomedImage) {
@@ -27,7 +28,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
     };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isMaxZoom) {
+        if (zoomLevel > 1) {
             const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
             const x = ((e.clientX - left) / width) * 100;
             const y = ((e.clientY - top) / height) * 100;
@@ -37,13 +38,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
 
     const handleZoomIn = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation(); // Prevent closing the zoomed image
-        setZoomLevel(prev => {
-            const newZoomLevel = Math.min(prev + 0.5, 3); // Increase zoom level with a cap of 3
-            if (newZoomLevel >= 4) {
-                setIsMaxZoom(true);
-            }
-            return newZoomLevel;
-        });
+        setZoomLevel(prev => Math.min(prev + 0.5, 3));
     };
 
     const handleResetZoom = (e: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) => {
@@ -54,7 +49,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
     const bind = useGesture({
         onPinch: ({ offset: [d], memo }) => {
             if (memo === undefined) memo = zoomLevel;
-            setZoomLevel(memo * d);
+            setZoomLevel(Math.max(1, memo * d));
             setIsMaxZoom(zoomLevel >= 3);
             return memo;
         },
@@ -73,23 +68,20 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
                     onClick={closeZoomedImage}
                 >
                     <div
+                        ref={containerRef}
                         {...(isMobile ? bind() : {})}
                         className="relative w-[80vw] h-[80vh] overflow-hidden"
                         onMouseMove={!isMobile ? handleMouseMove : undefined}
                         onClick={!isMobile ? handleZoomIn : undefined}
-                        onTouchMove={isMobile ? (e) => handleMouseMove(e as unknown as React.MouseEvent<HTMLDivElement>) : undefined}
-                        onTouchEnd={isMobile ? (e) => handleZoomIn(e as unknown as React.MouseEvent<HTMLDivElement>) : undefined}
                         style={{
-                            cursor: isMaxZoom ? 'default' : 'zoom-in',
+                            cursor: zoomLevel >= 3 ? 'move' : 'zoom-in',
                             touchAction: isMobile ? 'none' : 'auto',
                             transformOrigin: `${zoom.x}% ${zoom.y}%`,
                         }}
                     >
                         <div
                             style={{
-                                transform: isMobile
-                                    ? `scale(${zoomLevel}) translate(${position.x}px, ${position.y}px)`
-                                    : `scale(${zoomLevel})`,
+                                transform: `scale(${zoomLevel}) translate(${position.x}px, ${position.y}px)`,
                                 transformOrigin: `${zoom.x}% ${zoom.y}%`,
                                 width: '100%',
                                 height: '100%',
