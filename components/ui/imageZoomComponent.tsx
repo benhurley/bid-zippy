@@ -20,8 +20,27 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         }
     }, [zoomedImage]);
 
+    useEffect(() => {
+        const container = containerRef.current;
+        if (container) {
+            const touchMoveHandler = (e: TouchEvent) => {
+                e.preventDefault();
+            };
+            container.addEventListener('touchmove', touchMoveHandler, { passive: false });
+            return () => {
+                container.removeEventListener('touchmove', touchMoveHandler);
+            };
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isMobile) {
+            setZoomLevel(2); // Start zoomed in on mobile
+        }
+    }, []);
+
     const resetZoom = () => {
-        setZoomLevel(1);
+        setZoomLevel(isMobile ? 2 : 1);
         setIsMaxZoom(false);
         setZoom({ x: 50, y: 50 });
         setPosition({ x: 0, y: 0 });
@@ -74,7 +93,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
                         onMouseMove={!isMobile ? handleMouseMove : undefined}
                         onClick={!isMobile ? handleZoomIn : undefined}
                         style={{
-                            cursor: zoomLevel >= 3 ? 'move' : 'zoom-in',
+                            cursor: zoomLevel > 1 ? 'move' : 'zoom-in',
                             touchAction: isMobile ? 'none' : 'auto',
                             transformOrigin: `${zoom.x}% ${zoom.y}%`,
                         }}
