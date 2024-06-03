@@ -10,9 +10,9 @@ interface ImageZoomComponentProps {
 const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, closeZoomedImage }) => {
     const [zoom, setZoom] = useState({ x: 50, y: 50 });
     const [zoomLevel, setZoomLevel] = useState(1);
-    const [isMaxZoom, setIsMaxZoom] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const containerRef = useRef<HTMLDivElement>(null);
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 1000;
 
     useEffect(() => {
         if (!zoomedImage) {
@@ -37,11 +37,10 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         if (isMobile) {
             setZoomLevel(2); // Start zoomed in on mobile
         }
-    }, []);
+    }, [isMobile]);
 
     const resetZoom = () => {
         setZoomLevel(isMobile ? 2 : 1);
-        setIsMaxZoom(false);
         setZoom({ x: 50, y: 50 });
         setPosition({ x: 0, y: 0 });
     };
@@ -57,7 +56,14 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
 
     const handleZoomIn = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation(); // Prevent closing the zoomed image
-        setZoomLevel(prev => Math.min(prev + 0.5, 3));
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+        const x = ((e.clientX - left) / width) * 100;
+        const y = ((e.clientY - top) / height) * 100;
+        setZoom({ x, y });
+        setZoomLevel(prev => {
+            const newZoomLevel = Math.min(prev + 0.5, 3); // Increase zoom level with a cap of 3
+            return newZoomLevel;
+        });
     };
 
     const handleResetZoom = (e: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) => {
@@ -69,7 +75,6 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         onPinch: ({ offset: [d], memo }) => {
             if (memo === undefined) memo = zoomLevel;
             setZoomLevel(Math.max(1, memo * d));
-            setIsMaxZoom(zoomLevel >= 3);
             return memo;
         },
         onDrag: ({ offset: [x, y] }) => {
@@ -77,19 +82,17 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
         }
     });
 
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 1000;
-
     return (
         <>
             {zoomedImage && (
                 <div
-                    className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-[1000] cursor-pointer"
+                    className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-[1000] cursor-pointer ${isMobile ? 'p-0 m-0' : ''}`}
                     onClick={closeZoomedImage}
                 >
                     <div
                         ref={containerRef}
                         {...(isMobile ? bind() : {})}
-                        className="relative w-[80vw] h-[80vh] overflow-hidden"
+                        className="relative w-full h-full overflow-hidden"
                         onMouseMove={!isMobile ? handleMouseMove : undefined}
                         onClick={!isMobile ? handleZoomIn : undefined}
                         style={{
@@ -115,20 +118,22 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
                             />
                         </div>
                     </div>
-                    <div className="absolute top-5 right-5 flex space-x-2">
-                        <button
-                            className="bg-blue-500 text-white p-2 rounded border-2 border-blue-700"
-                            onClick={closeZoomedImage}
-                        >
-                            Close
-                        </button>
-                        <button
-                            className="bg-gray-500 text-white p-2 rounded border-2 border-gray-700"
-                            onClick={handleResetZoom}
-                        >
-                            Reset Zoom
-                        </button>
-                    </div>
+                    {!isMobile && (
+                        <div className="absolute bottom-5 right-5 flex space-x-2">
+                            <button
+                                className="bg-gray-500 text-white p-2 rounded border-2 border-black-700"
+                                onClick={handleResetZoom}
+                            >
+                                Reset Zoom
+                            </button>
+                            <button
+                                className="bg-white text-black p-2 rounded border-2 border-black-700"
+                                onClick={closeZoomedImage}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </>
