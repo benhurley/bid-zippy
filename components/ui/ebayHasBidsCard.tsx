@@ -1,9 +1,5 @@
-import {
-    Card,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import React from 'react';
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { EbayHasBidsItem } from "@/app/api/ebay/types";
 import Image from "next/image";
 import EbayHasBidsDetailsWrapper from "./ebayHasBidsDetailsWrapper";
@@ -24,7 +20,7 @@ export default function EbayHasBidsCard({ item }: EbayCardProps) {
 
     return (
         <EbayHasBidsDetailsWrapper itemId={item.itemId} watchCount={item.listingInfo.watchCount}>
-            <Card className="m-1 shadow-lg flex flex-col sm:h-[420px] min-h-[250px] max-w-[325px] min-w-[150px]">
+            <Card className="m-2 shadow-lg flex flex-col sm:h-[420px] min-h-[250px] max-w-[325px] min-w-[150px]">
                 <CardHeader className="flex-grow">
                     <div className="inline-flex justify-start">
                         <span><Image width={20} height={20} src={item.listingInfo.watchCount > 50 ? "/heart-fire.webp" : "/heart.webp"} alt='heart' /></span>
@@ -37,11 +33,11 @@ export default function EbayHasBidsCard({ item }: EbayCardProps) {
                             alt={item.title}
                         />
                     </div>
-                    <p className="font-bold text-center md:text-md text-xs pt-4">{formatter.format(item.sellingStatus.convertedCurrentPrice.value)} ({item.sellingStatus.bidCount} {item.sellingStatus.bidCount > 1 ? 'bids' : 'bid'})</p>
+                    <p className="font-bold text-center text-lg pt-4">{formatter.format(item.sellingStatus.convertedCurrentPrice.value)} ({item.sellingStatus.bidCount} {item.sellingStatus.bidCount > 1 ? 'bids' : 'bid'})</p>
                     <p className="text-center md:text-md text-sm"><span className={isLessThan10Minutes ? 'text-red-600' : ''}>{timeLeft} left</span></p>
                 </CardHeader>
                 <CardFooter className="self-end">
-                <CardTitle className="text-left md:text-lg text-xs font-normal">{item.title.slice(0,250)}</CardTitle>
+                    <CardTitle className="text-left md:text-lg text-sm font-normal">{item.title.slice(0, 250)}</CardTitle>
                 </CardFooter>
             </Card>
         </EbayHasBidsDetailsWrapper>

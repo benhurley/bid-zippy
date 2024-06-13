@@ -32,7 +32,7 @@ export default function EbayMostWatchedCard({ item }: EbayCardProps) {
                             alt={item.title}
                         />
                     </div>
-                    <p className="font-bold text-center text-md pt-4">{formatter.format(item.buyItNowPrice.value)}</p>
+                    <p className="font-bold text-center text-lg pt-4">{formatter.format(item.buyItNowPrice.value)}&nbsp;{item.buyItNowPrice.currencyId}</p>
                 </CardHeader>
                 <CardFooter className="self-end">
                     <CardTitle className="text-left md:text-md text-sm font-normal">{item.title.slice(0,250)}</CardTitle>

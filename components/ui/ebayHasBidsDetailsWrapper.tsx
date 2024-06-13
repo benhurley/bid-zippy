@@ -1,24 +1,17 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { ReactNode, useState } from "react";
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "./use-toast";
 import Image from "next/image";
-import { SyncLoader } from "react-spinners";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./carousel";
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
 import ButtonLink from "./buttonLink";
 import { EbayItemDetails } from "@/app/api/ebay/item/types";
 import { timeRemaining } from "../helpers/timeConversions";
 import ImageZoomComponent from "./imageZoomComponent";
+import DetailsSkeletonPlaceholder from "./skeletonDetailsPlaceholder";
 
 type EbayDetailsWrapperProps = {
-    children: ReactNode,
+    children: React.ReactNode,
     itemId: number,
     watchCount?: number,
 }
@@ -26,13 +19,15 @@ type EbayDetailsWrapperProps = {
 export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount }: EbayDetailsWrapperProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
-    const [itemDetails, setItemDetails] = useState<EbayItemDetails | null>(null)
-
+    const [itemDetails, setItemDetails] = useState<EbayItemDetails | null>(null);
+    const [imageLoading, setImageLoading] = useState(true);
     const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+
     // Function to open zoomed image
     const openZoomedImage = (imageUrl: string) => {
         setZoomedImage(imageUrl);
     };
+
     // Function to close zoomed image
     const closeZoomedImage = () => {
         setZoomedImage(null);
@@ -63,12 +58,11 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                         setItemDetails(filteredItemGroupData[0]);
                         setIsLoading(false);
                     }
-
                 } else {
                     throw new Error(legacyItemData.error);
                 }
             } else {
-                setItemDetails(legacyItemData)
+                setItemDetails(legacyItemData);
                 setIsLoading(false);
             }
         } catch (error: unknown) {
@@ -95,16 +89,14 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
             </DialogTrigger>
             <DialogContent>
                 {isLoading ?
-                    <div className="flex justify-center items-center h-[300px]">
-                        <SyncLoader color="#000" speedMultiplier={0.6} />
-                    </div>
-                    : itemDetails ?
+                    <DetailsSkeletonPlaceholder /> :
+                    itemDetails ?
                         <>
                             <div className="inline-flex justify-start">
                                 <span><Image width={20} height={20} src={watchCount && watchCount > 50 ? "/heart-fire.webp" : "/heart.webp"} alt='heart' /></span>
                                 <span className="ml-2">{watchCount}</span>
                             </div>
-                            <ScrollArea className="sm:max-h-[600px] max-h-[550px] px-2">
+                            <ScrollArea className="sm:h-[700px] h-[550px] px-2">
                                 <DialogHeader className="text-left">
                                     <Carousel
                                         opts={{
@@ -112,23 +104,31 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                                         }}
                                         className="pt-2 pb-5 flex items-center m-auto sm:max-w-[410px] max-w-[250px]"
                                     >
-                                        <CarouselContent>
+                                        <CarouselContent className='min-h-[200px]'>
                                             <CarouselItem key='primary-item' className="flex item-center justify-center cursor-pointer">
-                                                <img
-                                                    src={itemDetails?.image?.imageUrl}
-                                                    alt={'Primary Carousel Image'}
-                                                    className="object-cover sm:max-h-[400px] max-h-[300px]"
-                                                    onClick={() => openZoomedImage(itemDetails.image.imageUrl)}
-                                                />
+                                                <div className="relative">
+                                                    {imageLoading && <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>}
+                                                    <img
+                                                        src={itemDetails?.image?.imageUrl}
+                                                        alt={'Primary Carousel Image'}
+                                                        className={`object-cover sm:max-h-[400px] max-h-[300px] transition-opacity duration-500 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                                                        onLoad={() => setImageLoading(false)}
+                                                        onClick={() => openZoomedImage(itemDetails.image.imageUrl)}
+                                                    />
+                                                </div>
                                             </CarouselItem>
                                             {itemDetails?.additionalImages?.map((image, index) => (
                                                 <CarouselItem key={`additional-item-${index}`} className="flex aspect-square items-center justify-center p-0 cursor-pointer">
-                                                    <img
-                                                        src={image?.imageUrl}
-                                                        alt={`Additional Image ${index + 1}`}
-                                                        className="object-cover sm:max-h-[400px] max-h-[300px]"
-                                                        onClick={() => openZoomedImage(image.imageUrl)}
-                                                    />
+                                                    <div className="relative">
+                                                        {imageLoading && <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>}
+                                                        <img
+                                                            src={image?.imageUrl}
+                                                            alt={`Additional Image ${index + 1}`}
+                                                            className={`object-cover sm:max-h-[400px] max-h-[300px] transition-opacity duration-500 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                                                            onLoad={() => setImageLoading(false)}
+                                                            onClick={() => openZoomedImage(image.imageUrl)}
+                                                        />
+                                                    </div>
                                                 </CarouselItem>
                                             ))}
                                         </CarouselContent>
@@ -256,6 +256,6 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                     <ImageZoomComponent zoomedImage={zoomedImage} closeZoomedImage={closeZoomedImage} />
                 )}
             </DialogContent>
-        </Dialog >
-    )
+        </Dialog>
+    );
 }
