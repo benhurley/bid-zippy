@@ -73,7 +73,7 @@ export default function Home() {
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
-    setIsSticky(window.innerWidth > 1024 ? scrollTop > 500 : scrollTop > 300);
+    setIsSticky(window.innerWidth > 1024 ? scrollTop > 520 : scrollTop > 320);
   };
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function Home() {
                   <p className="font-bold text-sm text-center">{mostWatchedResults.length > 0 && mostWatchedResults[0].primaryCategoryName}</p>
                 </div>
               }
-              <div className="mb-32 grid text-center lg:max-w-6xl lg:w-full lg:mb-0 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:text-left md:gap-6 gap-0 px-2 mt-5">
+              <div className="sm:mb-24 mb-16 grid text-center lg:max-w-6xl lg:w-full lg:mb-0 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:text-left md:gap-6 gap-0 px-2 mt-5">
                 {mode === 'watchCount' && mostWatchedResults.length > 0 && mostWatchedResults.map((item, index) => {
                   return (
                     <EbayMostWatchedCard
@@ -144,7 +144,7 @@ export default function Home() {
             </>
           )
         }
-        <Image className='relative mb-48 lg:mt-32' src="/ebayProgram.webp" alt="Member of Ebay's Developer Program" width={200} height={100} />
+        <Image className='relative mb-48 lg:mt-24' src="/ebayProgram.webp" alt="Member of Ebay's Developer Program" width={200} height={100} />
       </main>
       <Toaster />
       {/* Not needed while affiliate urls from api are in use */}

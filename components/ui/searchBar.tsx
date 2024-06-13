@@ -41,7 +41,7 @@ export default function SearchBar({ handleSearch, isLoading }: TSearchBar) {
                     <Input
                         type="text"
                         className="text-base px-3 py-2 w-full pr-12"
-                        placeholder='e.g. Vintage Gold Omega Seamaster'
+                        placeholder='e.g. Vintage Gold Omega'
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
                         value={query}
