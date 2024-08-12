@@ -3,6 +3,7 @@ import eBayApi from 'ebay-api';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const itemId = searchParams.get('itemId')?.trim();
+  const legacy_item_id = searchParams.get('legacyId')?.trim();
   
   const eBay = new eBayApi({
     appId: process.env.EBAY_APP_ID || '',
@@ -10,16 +11,25 @@ export async function GET(request: Request) {
     sandbox: false
   });
 
-  const params = {
-    legacy_item_id: itemId || '',
+  const legacy_params = {
+    legacy_item_id: legacy_item_id || '',
   }
 
   try {
-    const response = await eBay.buy.browse.api({
-      headers: {
-        'X-EBAY-C-ENDUSERCTX': 'affiliateCampaignId=5339048923'
+    let response;
+    if (itemId) {
+      response = await eBay.buy.browse.api({
+        headers: {
+          'X-EBAY-C-ENDUSERCTX': 'affiliateCampaignId=5339048923'
+      }
+      }).getItem(itemId || '');
+    } else if (legacy_item_id) {
+      response = await eBay.buy.browse.api({
+        headers: {
+          'X-EBAY-C-ENDUSERCTX': 'affiliateCampaignId=5339048923'
+      }
+      }).getItemByLegacyId(legacy_params);
     }
-    }).getItemByLegacyId(params);
 
     return new Response(JSON.stringify(response), {
       status: 200,

@@ -3,29 +3,25 @@ import eBayApi from 'ebay-api';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const keywords = searchParams.get('keywords')?.trim();
-  
+
   const eBay = new eBayApi({
     appId: process.env.EBAY_APP_ID || '',
     certId: process.env.EBAY_CERT_ID || '',
-    sandbox: false,
+    sandbox: false
   });
 
-  const params = {
-    keywords: keywords || '',
-    itemFilter: [
-      { name: 'MinBids', value: '1' },
-    ],
-    paginationInput: {
-      entriesPerPage: 100 // Adjust number of entries per page if needed
-    },
-    sortOrder: 'EndTimeSoonest',
-    headers: {
-        'X-EBAY-C-ENDUSERCTX': 'affiliateCampaignId=5339048923'
-    }
-  };
-
   try {
-    const response = await eBay.finding.findItemsAdvanced(params);
+    const response = await eBay.buy.browse.api({
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).search({
+      q: keywords || '', // Search query parameter
+      sort: 'endingSoonest',     // Sorting order
+      filter: 'buyingOptions:{AUCTION},bidCount:[1]', // Example filter
+      limit: '200',
+      fieldgroups: 'FULL'
+    });
 
     return new Response(JSON.stringify(response), {
       status: 200,
@@ -51,3 +47,4 @@ export async function GET(request: Request) {
     }
   }
 }
+

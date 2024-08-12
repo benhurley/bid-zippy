@@ -49,59 +49,58 @@ export type EbaySearchResultItem = {
   };
 
   export type EbayHasBidsItem = {
-    itemId: number;
+    itemId: string;
     title: string;
-    globalId: string;
-    primaryCategory: {
-        categoryId: number;
+    leafCategoryIds: string[];
+    categories: {
+        categoryId: string;
         categoryName: string;
+    }[];
+    image: {
+        imageUrl: string;
     };
-    galleryURL: string;
-    viewItemURL: string;
-    autoPay: boolean;
-    postalCode: string;
-    location: string;
-    country: string;
-    shippingInfo: {
-        shippingServiceCost: {
-            value: number;
-            currencyId: string;
+    itemHref: string;
+    seller: {
+        username: string;
+        feedbackPercentage: string;
+        feedbackScore: number;
+    };
+    condition: string;
+    conditionId: string;
+    thumbnailImages: {
+        imageUrl: string;
+    }[];
+    shippingOptions: {
+        shippingCostType: string;
+        shippingCost: {
+            value: string;
+            currency: string;
         };
-        shippingType: string;
-        shipToLocations: string;
-        expeditedShipping: boolean;
-        oneDayShippingAvailable: boolean;
-        handlingTime: number;
+    }[];
+    buyingOptions: string[];
+    bidCount: number;
+    currentBidPrice: {
+        value: string;
+        currency: string;
     };
-    sellingStatus: {
-        currentPrice: {
-            value: number;
-            currencyId: string;
-        };
-        convertedCurrentPrice: {
-            value: number;
-            currencyId: string;
-        };
-        bidCount: number;
-        sellingState: string;
-        timeLeft: string;
+    epid: string;
+    itemWebUrl: string;
+    itemLocation: {
+        postalCode: string;
+        country: string;
     };
-    listingInfo: {
-        bestOfferEnabled: boolean;
-        buyItNowAvailable: boolean;
-        startTime: string;
-        endTime: string;
-        listingType: string;
-        gift: boolean;
-        watchCount: number;
-    };
-    returnsAccepted: boolean;
-    condition: {
-        conditionId: number;
-        conditionDisplayName: string;
-    };
-    isMultiVariationListing: boolean;
-    topRatedListing: boolean;
+    additionalImages: {
+        imageUrl: string;
+    }[];
+    adultOnly: boolean;
+    legacyItemId: string;
+    availableCoupons: boolean;
+    itemCreationDate: string;
+    itemEndDate: string;
+    topRatedBuyingExperience: boolean;
+    priorityListing: boolean;
+    listingMarketplaceId: string;
 };
+
 
   

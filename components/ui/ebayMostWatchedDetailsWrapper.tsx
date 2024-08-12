@@ -45,7 +45,7 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
     try {
       setItemDetails(null);
       setIsLoading(true);
-      const legacyItemResponse = await fetch(`/api/ebay/item?itemId=${itemId}`);
+      const legacyItemResponse = await fetch(`/api/ebay/item?legacyId=${itemId}`);
       const legacyItemData = await legacyItemResponse.json();
 
       if (!legacyItemResponse.ok) {
@@ -104,7 +104,7 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
           <SkeletonDetailsPlaceholder />
         ) : itemDetails ? (
           <>
-            <div className="inline-flex justify-start">
+            <div className="animate-fadeInLeftToRight inline-flex justify-start">
               <span>
                 <Image
                   width={20}
@@ -113,7 +113,7 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                   alt="heart"
                 />
               </span>
-              <span className="ml-2">{watchCount}</span>
+              <span className="font-bold animate-fadeInLeftToRight ml-2">{`${watchCount} watchers`}</span>
             </div>
             <ScrollArea className="sm:h-[700px] h-[550px] px-2">
               <DialogHeader className="text-left">

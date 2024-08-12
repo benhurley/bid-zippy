@@ -6,13 +6,13 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ButtonLink from "./buttonLink";
 import { EbayItemDetails } from "@/app/api/ebay/item/types";
-import { timeRemaining } from "../helpers/timeConversions";
+import { getTimeLeft } from "../helpers/timeConversions";
 import ImageZoomComponent from "./imageZoomComponent";
 import DetailsSkeletonPlaceholder from "./skeletonDetailsPlaceholder";
 
 type EbayDetailsWrapperProps = {
     children: React.ReactNode,
-    itemId: number,
+    itemId: string,
     watchCount?: number,
 }
 
@@ -22,6 +22,13 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
     const [itemDetails, setItemDetails] = useState<EbayItemDetails | null>(null);
     const [imageLoading, setImageLoading] = useState(true);
     const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+
+    const timeLeft = itemDetails && getTimeLeft(itemDetails.itemEndDate || '');
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
 
     // Function to open zoomed image
     const openZoomedImage = (imageUrl: string) => {
@@ -92,9 +99,13 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                     <DetailsSkeletonPlaceholder /> :
                     itemDetails ?
                         <>
-                            <div className="inline-flex justify-start">
+                            {/* <div className="inline-flex justify-start">
                                 <span><Image width={20} height={20} src={watchCount && watchCount > 50 ? "/heart-fire.webp" : "/heart.webp"} alt='heart' /></span>
                                 <span className="ml-2">{watchCount}</span>
+                            </div> */}
+                            <div className="animate-fadeInLeftToRight inline-flex justify-start -pb-4">
+                                <span><Image width={30} height={30} src={'/bidder.webp'} alt='bidder' /></span>
+                                <span className="ml-4 font-bold animate-fadeInLeftToRight">{`${itemDetails.bidCount} bid${itemDetails?.bidCount && itemDetails.bidCount > 1 ? 's' : ''}`}</span>
                             </div>
                             <ScrollArea className="sm:h-[700px] h-[550px] px-2">
                                 <DialogHeader className="text-left">
@@ -136,8 +147,8 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                                         <CarouselNext className="invisible sm:visible" />
                                     </Carousel>
                                     <DialogTitle tabIndex={0} className="font-bold md:text-xl sm:text-md text-sm pb-2">{itemDetails?.title}</DialogTitle>
-                                    <p className="mb-1 font-bold md:text-lg text-md">${itemDetails?.currentBidPrice?.value} ({itemDetails?.bidCount} {itemDetails?.bidCount && itemDetails?.bidCount > 1 ? 'bids' : 'bid'})</p>
-                                    <p className="mb-1 md:text-lg text-md">{timeRemaining(itemDetails.itemEndDate || '')} remaining</p>
+                                    <p className="font-bold md:text-lg text-md">{`Current Bid: ${formatter.format(parseInt(itemDetails.currentBidPrice?.value || ''))}`}</p>
+                                    <p className="font-bold mb-1 md:text-md text-sm"><span className={timeLeft?.isEndingSoon ? 'text-red-600' : ''}>{timeLeft?.readableString}</span></p>
                                 </DialogHeader>
                                 <DialogDescription>
                                     <div className="my-5">
@@ -146,6 +157,14 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                                             <div className="flex my-2 items-start">
                                                 <p className="font-bold text-md sm:w-32 w-24">Description</p>
                                                 <p className="flex-1">{itemDetails.shortDescription}</p>
+                                            </div>
+                                        )}
+
+                                        {/* Bidders */}
+                                        {itemDetails?.uniqueBidderCount && (
+                                            <div className="flex my-1 items-center">
+                                                <p className="font-bold sm:w-32 w-24">Bidders</p>
+                                                <p className="flex-1">{itemDetails.uniqueBidderCount}</p>
                                             </div>
                                         )}
 
@@ -161,6 +180,14 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                                                 )}
                                             </div>
                                         </div>
+
+                                        {/* Brand */}
+                                        {itemDetails?.brand && (
+                                            <div className="flex my-1 items-center">
+                                                <p className="font-bold sm:w-32 w-24">Brand</p>
+                                                <p className="flex-1">{itemDetails.brand.toString()}</p>
+                                            </div>
+                                        )}
 
                                         {/* Item Condition */}
                                         <div className="flex my-1 items-center">
@@ -224,22 +251,14 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                                         <div className="flex my-1 items-center">
                                             <p className="font-bold sm:w-32 w-24">Location</p>
                                             <p className="flex-1">
-                                                {itemDetails.itemLocation.city}, {itemDetails.itemLocation.stateOrProvince} ({itemDetails.itemLocation.country})
+                                                {itemDetails.itemLocation.city ? `${itemDetails.itemLocation.city}, ` : null} {itemDetails.itemLocation.stateOrProvince} ({itemDetails.itemLocation.country})
                                             </p>
                                         </div>
 
-                                        {itemDetails.returnTerms.returnsAccepted && (
+                                        {itemDetails.returnTerms && (
                                             <div className="flex my-1 items-center">
                                                 <p className="font-bold sm:w-32 w-24">Returns</p>
-                                                <p className="flex-1">Seller accepts returns</p>
-                                            </div>
-                                        )}
-
-                                        {/* Bidders */}
-                                        {itemDetails?.uniqueBidderCount && (
-                                            <div className="flex my-1 items-center">
-                                                <p className="font-bold sm:w-32 w-24">Bidders</p>
-                                                <p className="flex-1">{itemDetails.uniqueBidderCount}</p>
+                                                <p className="flex-1">{itemDetails.returnTerms.returnsAccepted ? 'Accepts Returns' : 'No Returns'}</p>
                                             </div>
                                         )}
 

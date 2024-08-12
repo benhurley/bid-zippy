@@ -4,12 +4,12 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Most Watched | Browse eBay's most-watched items",
-  description: "Browse eBay's most-watched items",
+  title: "Most Watched | Discover eBay's most-wanted items",
+  description: "Discover eBay's most-wanted items",
   applicationName: 'most-watched',
   authors: [{ name: "justbenfyi", url: 'https://justben.fyi' }],
   creator: "@justbenfyi",
-  keywords: ['ebay', 'watch', 'saved', 'watched', 'watchcount', 'search', 'browse'],
+  keywords: ['ebay', 'watch', 'saved', 'watched', 'watchcount', 'search', 'browse', 'bid', 'bids', 'bidcount'],
   twitter: { card: "summary_large_image", creator: "@justbenfyi", "images": "/me.webp" },
 };
 
@@ -23,8 +23,8 @@ export default function RootLayout({
       <head>
         <meta property="canonical" content="https://mostwatched.justben.fyi" />
 
-        <meta property="og:title" content="Most Watched | Browse eBay's most-watched items" />
-        <meta property="og:description" content="Browse eBay's most-watched items" />
+        <meta property="og:title" content="Most Watched | Discover eBay's most-wanted items" />
+        <meta property="og:description" content="Discover eBay's most-wanted items" />
         <meta property="og:image" content="/me.webp" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mostwatched.justben.fyi" />
@@ -33,7 +33,7 @@ export default function RootLayout({
         <meta property="twitter:title" content="Most Watched" />
         <meta property="twitter:site" content="https://mostwatched.justben.fyi" />
         <meta property="twitter:creator" content="@justbenfyi" />
-        <meta property="twitter:description" content="Most Watched | Browse eBay's most-watched items." />
+        <meta property="twitter:description" content="Most Watched | Discover eBay's most-wanted items." />
         <meta property="twitter:image" content="https://mostwatched.justben.fyi/me.webp" />
 
       </head>

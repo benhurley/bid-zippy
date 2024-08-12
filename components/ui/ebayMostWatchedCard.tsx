@@ -21,9 +21,9 @@ export default function EbayMostWatchedCard({ item }: EbayCardProps) {
         <EbayMostWatchedDetailsWrapper itemId={item.itemId} watchCount={item.watchCount}>
             <Card className="m-2 shadow-lg flex flex-col sm:h-[350px] min-h-[250px] max-w-[325px] min-w-[150px]">
                 <CardHeader className="flex-grow">
-                        <div className="inline-flex justify-start">
+                        <div className="animate-fadeInLeftToRight inline-flex justify-start pb-4">
                             <span><Image width={20} height={20} src={item.watchCount > 50 ? "/heart-fire.webp" : "/heart.webp"} alt='heart' /></span>
-                            <span className="ml-2">{item.watchCount}</span>
+                            <span className="font-bold ml-2 animate-fadeInLeftToRight">{`${item.watchCount} watchers`}</span>
                         </div>
                     <div className="w-auto relative flex items-center justify-around sm:min-h-[150px]">
                         <img

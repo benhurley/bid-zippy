@@ -46,10 +46,10 @@ export default function Home() {
           const response = await fetch(`/api/ebay/items?keywords=${encodeURIComponent(query)}`);
           const data = await response.json();
 
-          if (data.searchResult?.item?.length === 0 || !data.searchResult?.item) {
+          if (!data?.itemSummaries || data.itemSummaries.length === 0) {
             setNoResults(true);
           }
-          setHasBidsResults(data.searchResult?.item || []);
+          setHasBidsResults(data.itemSummaries || []);
           setIsLoading(false);
         } else {
           setHasBidsResults([]);
