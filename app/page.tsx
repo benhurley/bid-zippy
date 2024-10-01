@@ -107,7 +107,7 @@ export default function Home() {
                   className="mb-1"
                   type="number"
                   min={1}
-                  value={bidThreshold}
+                  defaultValue={bidThreshold}
                   onChange={(e) => e.target.value && setBidThreshold(parseInt(e.target.value))}
                 /> 
                 {bidThreshold > 1 ? 'bids' : 'bid'}
