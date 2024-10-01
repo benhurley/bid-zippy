@@ -4,8 +4,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Most Watched | Discover eBay's most-wanted items",
-  description: "Discover eBay's most-wanted items",
+  title: "Most-Watched | Discover eBay's hottest items",
+  description: "Discover eBay's hottest items",
   applicationName: 'most-watched',
   authors: [{ name: "justbenfyi", url: 'https://justben.fyi' }],
   creator: "@justbenfyi",
@@ -23,17 +23,17 @@ export default function RootLayout({
       <head>
         <meta property="canonical" content="https://mostwatched.justben.fyi" />
 
-        <meta property="og:title" content="Most Watched | Discover eBay's most-wanted items" />
-        <meta property="og:description" content="Discover eBay's most-wanted items" />
+        <meta property="og:title" content="Most-Watched | Discover eBay's hottest items." />
+        <meta property="og:description" content="Discover eBay's hottest items" />
         <meta property="og:image" content="/me.webp" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mostwatched.justben.fyi" />
 
         <meta property="twitter:card" content="https://mostwatched.justben.fyi/me.webp" />
-        <meta property="twitter:title" content="Most Watched" />
+        <meta property="twitter:title" content="Most-Watched" />
         <meta property="twitter:site" content="https://mostwatched.justben.fyi" />
         <meta property="twitter:creator" content="@justbenfyi" />
-        <meta property="twitter:description" content="Most Watched | Discover eBay's most-wanted items." />
+        <meta property="twitter:description" content="Most-Watched | Discover eBay's hottest items." />
         <meta property="twitter:image" content="https://mostwatched.justben.fyi/me.webp" />
 
       </head>

@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 # most-watched
 
-Discover eBay's most-wanted items.
+Discover eBay's hottest items.
 
 ![most-watched website screenshot](/public/screenshot.png)
 

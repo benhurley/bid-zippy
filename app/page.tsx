@@ -11,6 +11,7 @@ import Image from "next/image";
 import EbayHasBidsCard from "@/components/ui/ebayHasBidsCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SkeletonGridPlaceholder from "@/components/ui/skeletonGridPlaceholder";
+import { SmallInput } from "@/components/ui/smallInput";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +20,7 @@ export default function Home() {
   const [hasBidsResults, setHasBidsResults] = useState<EbayHasBidsItem[]>([]);
   const [isSticky, setIsSticky] = useState(false);
   const [mode, setMode] = useState('hasBids');
+  const [bidThreshold, setBidThreshold] = useState(1);
 
   const { toast } = useToast();
 
@@ -43,7 +45,7 @@ export default function Home() {
         }
       } else if (mode === 'hasBids') {
         if (query.length > 0) {
-          const response = await fetch(`/api/ebay/items?keywords=${encodeURIComponent(query)}`);
+          const response = await fetch(`/api/ebay/items?keywords=${encodeURIComponent(query)}&bidCount=${bidThreshold}`);
           const data = await response.json();
 
           if (!data?.itemSummaries || data.itemSummaries.length === 0) {
@@ -98,8 +100,19 @@ export default function Home() {
               </TabsList>
             </div>
             <div className="mt-4 text-sm">
-              <TabsContent value="watchCount">Highest watch counts will be shown first<Image className="inline-flex ml-1" width={20} height={20} src="/heart.webp" alt='heart' /></TabsContent>
-              <TabsContent value="hasBids">All results will have at least 1 active bid</TabsContent>
+              <TabsContent value="watchCount">
+                <span className="my-1.5">Highest watch counts will be shown first<Image className="inline-flex ml-1" width={20} height={20} src="/heart.webp" alt='heart' /></span></TabsContent>
+              <TabsContent value="hasBids">Results with at least
+                <SmallInput
+                  className="mb-1"
+                  type="number"
+                  min={1}
+                  value={bidThreshold}
+                  onChange={(e) => e.target.value && setBidThreshold(parseInt(e.target.value))}
+                /> 
+                {bidThreshold > 1 ? 'bids' : 'bid'}
+                <Image className="inline-flex ml-1" width={20} height={20} src="/bidder.webp" alt='bidder' />
+              </TabsContent>
             </div>
           </Tabs>
         </div>

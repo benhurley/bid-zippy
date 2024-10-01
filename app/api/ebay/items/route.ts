@@ -3,7 +3,8 @@ import eBayApi from 'ebay-api';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const keywords = searchParams.get('keywords')?.trim();
-
+  const bidThreshold = searchParams.get('bidCount');
+  
   const eBay = new eBayApi({
     appId: process.env.EBAY_APP_ID || '',
     certId: process.env.EBAY_CERT_ID || '',
@@ -18,7 +19,7 @@ export async function GET(request: Request) {
     }).search({
       q: keywords || '', // Search query parameter
       sort: 'endingSoonest',     // Sorting order
-      filter: 'buyingOptions:{AUCTION},bidCount:[1]', // Example filter
+      filter: `buyingOptions:{AUCTION},bidCount:[${bidThreshold}]`,
       limit: '200',
       fieldgroups: 'FULL'
     });
