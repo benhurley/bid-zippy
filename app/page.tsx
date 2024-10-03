@@ -12,6 +12,7 @@ import EbayHasBidsCard from "@/components/ui/ebayHasBidsCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SkeletonGridPlaceholder from "@/components/ui/skeletonGridPlaceholder";
 import { SmallInput } from "@/components/ui/smallInput";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -78,6 +79,13 @@ export default function Home() {
     setIsSticky(window.innerWidth > 1024 ? scrollTop > 520 : scrollTop > 320);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Smooth scrolling
+    });
+  };
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
@@ -104,12 +112,13 @@ export default function Home() {
                 <span className="my-1.5">Highest watch counts will be shown first<Image className="inline-flex ml-1" width={20} height={20} src="/heart.webp" alt='heart' /></span></TabsContent>
               <TabsContent value="hasBids">Results with at least
                 <SmallInput
+                  pattern='/^[0-9]+$/'
                   className="mb-1"
                   type="number"
                   min={1}
                   defaultValue={bidThreshold}
                   onChange={(e) => e.target.value && setBidThreshold(parseInt(e.target.value))}
-                /> 
+                />
                 {bidThreshold > 1 ? 'bids' : 'bid'}
                 <Image className="inline-flex ml-1" width={20} height={20} src="/bidder.webp" alt='bidder' />
               </TabsContent>
@@ -154,6 +163,15 @@ export default function Home() {
                   )
                 })}
               </div>
+              {(hasBidsResults.length > 0 || mostWatchedResults.length > 0) &&
+                <Button
+                  size='lg'
+                  className="sm:mt-20 mb-20"
+                  onClick={scrollToTop}
+                >
+                  Back to top
+                </Button>
+              }
             </>
           )
         }
