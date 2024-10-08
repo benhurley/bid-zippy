@@ -1,10 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-# Bid Zippy™
+# BidZippy™
 
 Discover eBay's hottest items.
 
-![bid zippy website screenshot](/public/screenshot.webp)
+![website screenshot](/public/screenshot.webp)
 
 ## Getting Started
 

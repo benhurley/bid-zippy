@@ -100,7 +100,6 @@ export default function Home() {
         <Header />
         <div className="inline-flex justify-left lg:mb-10 md:w-[400px] w-[315px]">
           <Tabs defaultValue="hasBids">
-            <h2 className="font-bold mb-2">Choose your Search Mode:</h2>
             <div className="md:mb-2 mb-12">
               <TabsList>
                 <TabsTrigger value="hasBids" onClick={() => setMode('hasBids')}>Active Bids</TabsTrigger>
@@ -110,7 +109,7 @@ export default function Home() {
             <div className="mt-4 text-sm">
               <TabsContent value="watchCount">
                 <span className="my-1.5">Highest watch counts will be shown first<Image className="inline-flex ml-1" width={20} height={20} src="/heart.webp" alt='heart' /></span></TabsContent>
-              <TabsContent value="hasBids">Results with at least
+              <TabsContent value="hasBids">Auctions with at least
                 <SmallInput
                   pattern='/^[0-9]+$/'
                   className="mb-1"
