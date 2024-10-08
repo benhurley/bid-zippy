@@ -79,7 +79,7 @@ const ImageZoomComponent: React.FC<ImageZoomComponentProps> = ({ zoomedImage, cl
                             className="transition-transform"
                         />
                     </div>
-                    {!isMobile && zoomLevel < 2 && (
+                    {zoomLevel < 2 && (
                         <div className="absolute top-5 right-5 flex space-x-2">
                             <button
                                 className="bg-black text-white px-3 py-2 rounded border-2 border-black-700"
