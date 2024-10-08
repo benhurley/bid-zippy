@@ -100,7 +100,7 @@ export default function Home() {
         <Header />
         <div className="inline-flex justify-left lg:mb-10 md:w-[400px] w-[315px]">
           <Tabs defaultValue="hasBids">
-            <h2 className="font-bold mb-2">Choose a Search Mode:</h2>
+            <h2 className="font-bold mb-2">Choose your Search Mode:</h2>
             <div className="md:mb-2 mb-12">
               <TabsList>
                 <TabsTrigger value="hasBids" onClick={() => setMode('hasBids')}>Active Bids</TabsTrigger>

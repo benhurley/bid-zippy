@@ -1,6 +1,6 @@
 {
-  "name": "most-watched",
-  "version": "0.1.0",
+  "name": "bid-zippy",
+  "version": "8.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
