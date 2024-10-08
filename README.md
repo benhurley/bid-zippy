@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 # BidZippy™
 
-Discover eBay's hottest items.
+Quickly Find the Best Auctions on eBay.
 
 ![website screenshot](/public/screenshot.webp)
 

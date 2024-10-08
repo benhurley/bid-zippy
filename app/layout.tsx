@@ -4,8 +4,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BidZippy™ | Discover eBay's hottest items",
-  description: "Discover eBay's hottest items",
+  title: "BidZippy™ | Quickly Find the Best Auctions on eBay",
+  description: "BidZippy™ | Quickly Find the Best Auctions on eBay",
   applicationName: 'biz-zippy',
   authors: [{ name: "justbenfyi", url: 'https://justben.fyi' }],
   creator: "@justbenfyi",
@@ -23,8 +23,8 @@ export default function RootLayout({
       <head>
         <meta property="canonical" content="https://bidzippy.com" />
 
-        <meta property="og:title" content="BidZippy™ | Discover eBay's hottest items." />
-        <meta property="og:description" content="Discover eBay's hottest items" />
+        <meta property="og:title" content="BidZippy™ | Quickly Find the Best Auctions on eBay." />
+        <meta property="og:description" content="BidZippy™ | Quickly Find the Best Auctions on eBay." />
         <meta property="og:image" content="/me.webp" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://bidzippy.com" />
@@ -33,7 +33,7 @@ export default function RootLayout({
         <meta property="twitter:title" content="BidZippy™" />
         <meta property="twitter:site" content="https://bidzippy.com" />
         <meta property="twitter:creator" content="@justbenfyi" />
-        <meta property="twitter:description" content="BidZippy™ | Discover eBay's hottest items." />
+        <meta property="twitter:description" content="BidZippy™ | Quickly Find the Best Auctions on eBay." />
         <meta property="twitter:image" content="https://bidzippy.com/screenshot.webp" />
 
       </head>
