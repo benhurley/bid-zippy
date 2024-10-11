@@ -124,7 +124,7 @@ export default function Home() {
             </div>
           </Tabs>
         </div>
-        <div className={`z-10 w-full sticky grid justify-center top-0 bg-white ${isSticky ? 'shadow-xl bg-gradient-to-r from-red-100 via-blue-100 via-40% to-green-100 to-70% via-yellow-200 to-100% ' : ''}`}>
+        <div className={`z-10 w-full sticky grid justify-center top-0 bg-white ${isSticky ? 'shadow-xl bg-gradient-to-r from-red-100 via-blue-100 via-40% to-green-100 to-70% via-blue-200 to-100% ' : ''}`}>
           <SearchBar handleSearch={handleSearch} isLoading={isLoading} />
         </div>
         {noResults &&

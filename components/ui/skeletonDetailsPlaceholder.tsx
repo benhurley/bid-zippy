@@ -10,7 +10,7 @@ export default function SkeletonDetailsPlaceholder() {
             <div className="sm:max-h-[700px] max-h-[550px] px-2">
                 <div className="text-left">
                     <div className="pt-2 pb-5 flex items-center m-auto sm:max-w-[410px] max-w-[250px]">
-                        <div className="w-full sm:h-[400px] h-60 bg-gray-200 rounded-md"></div>
+                        <div className="w-full sm:h-[400px] h-80 bg-gray-200 rounded-md"></div>
                     </div>
                     <div className="font-bold md:text-xl sm:text-md text-sm pb-2 bg-gray-300 rounded w-48 h-6 mb-2"></div>
                     <p className="mb-1 font-bold md:text-lg text-md bg-gray-300 rounded w-24 h-5"></p>

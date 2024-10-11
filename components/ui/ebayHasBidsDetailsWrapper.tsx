@@ -122,7 +122,7 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
                                                     <img
                                                         src={itemDetails?.image?.imageUrl}
                                                         alt={'Primary Carousel Image'}
-                                                        className={`object-cover sm:max-h-[400px] max-h-[300px] transition-opacity duration-500 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                                                        className={`object-cover sm:max-h-[400px] max-h-[300px] transition-all duration-500 ${imageLoading ? 'blur-lg' : 'blur-none'}`}
                                                         onLoad={() => setImageLoading(false)}
                                                         onClick={() => openZoomedImage(itemDetails.image.imageUrl)}
                                                     />
