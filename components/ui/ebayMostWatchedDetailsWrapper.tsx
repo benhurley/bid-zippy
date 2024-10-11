@@ -14,6 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import ButtonLink from "./buttonLink";
 import { EbayItemDetails } from "@/app/api/ebay/item/types";
 import SkeletonDetailsPlaceholder from "./skeletonDetailsPlaceholder";
+import ImageZoomComponent from "./imageZoomComponent";
 
 type EbayDetailsWrapperProps = {
   children: ReactNode;
@@ -278,12 +279,7 @@ export default function EbayHasBidsDetailsWrapper({ children, itemId, watchCount
           </>
         ) : null}
         {zoomedImage && (
-          <div
-            className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-[1000] cursor-pointer"
-            onClick={closeZoomedImage}
-          >
-            <Image src={zoomedImage} alt="zoomed-image" layout="fill" objectFit="contain" />
-          </div>
+          <ImageZoomComponent zoomedImage={zoomedImage} closeZoomedImage={closeZoomedImage} />
         )}
       </DialogContent>
     </Dialog>

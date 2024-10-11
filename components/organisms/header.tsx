@@ -22,7 +22,7 @@ export default function Header() {
           </div>
         </div>
         <div className="lg:mt-2 mt-1 lg:mb-0 mb-0 flex justify-center md:text-[10px] text-[8px]">
-          2024, All Rights Reserved. Version 8.0.2
+          2024, All Rights Reserved. Version 8.0.3
         </div>
       </div>
 
