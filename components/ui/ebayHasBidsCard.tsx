@@ -31,7 +31,7 @@ export default function EbayHasBidsCard({ item }: EbayCardProps) {
                     <div className="w-auto relative flex items-center justify-around sm:min-h-[150px] sm:max-h-[225px]">
                         <img
                             className={`object-contain h-full rounded-md md:mt-0 mt-2 transition-all duration-500 ${imageLoading ? 'blur-lg' : 'blur-none'}`} // Apply blur class
-                            src={item.image.imageUrl}
+                            src={item.image?.imageUrl}
                             alt={item.title}
                             onLoad={() => setImageLoading(false)} // Set loading state to false on load
                         />
