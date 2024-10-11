@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Header() {
   return (
     <div className="z-20 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex sm:mb-10 min-w-[290px] lg:mb-40 mb-24">
-<div className="px-4 relative left-0 sm:top-0 w-full bg-gradient-to-r from-red-100 via-blue-100 via-40% to-green-100 to-70% via-yellow-200 to-100% pb-2 sm:pb-6 pt-4 sm:pt-8 lg:static lg:w-auto lg:rounded-xl lg:border bg-gray-100 lg:py-4 lg:px-10">
+<div className="px-4 relative left-0 sm:top-0 w-full bg-gradient-to-r from-red-100 via-blue-100 via-40% to-green-100 to-70% via-yellow-100 to-100% pb-2 sm:pb-6 pt-4 sm:pt-8 lg:static lg:w-auto lg:rounded-xl lg:border bg-gray-100 lg:py-4 lg:px-10">
   <div className="flex justify-center align-center">
     <code className="font-mono font-bold md:text-3xl text-2xl mr-2">BidZippy™</code>
   </div>
