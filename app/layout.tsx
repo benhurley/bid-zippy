@@ -35,7 +35,8 @@ export default function RootLayout({
         <meta property="twitter:creator" content="@justbenfyi" />
         <meta property="twitter:description" content="BidZippy™ | Uncover Top Listings on eBay" />
         <meta property="twitter:image" content="https://bidzippy.com/screenshot.webp" />
-
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1423946275603152"
+        crossOrigin="anonymous"></script>
       </head>
       <body className={inter.className}>{children}</body>
     </html>
